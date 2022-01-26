@@ -1,0 +1,441 @@
+
+lib/avalara_sdk/api/age_verification_api.rb,470
+module AvalaraSdkAvalaraSdk15,0
+  class AgeVerificationApiAgeVerificationApi16,0
+  class AgeVerificationApiAvalaraSdk::AgeVerificationApi16,0
+    attr_accessor :api_clientapi_client17,0
+    attr_accessor :api_clientapi_client=17,0
+    def initialize(api_client = ApiClient.default)initialize19,0
+    def verify_age(age_verify_request, opts = {})verify_age28,0
+    def verify_age_with_http_info(age_verify_request, opts = {})verify_age_with_http_info39,0
+
+lib/avalara_sdk/api/shipping_verification_api.rb,1242
+module AvalaraSdkAvalaraSdk15,0
+  class ShippingVerificationApiShippingVerificationApi16,0
+  class ShippingVerificationApiAvalaraSdk::ShippingVerificationApi16,0
+    attr_accessor :api_clientapi_client17,0
+    attr_accessor :api_clientapi_client=17,0
+    def initialize(api_client = ApiClient.default)initialize19,0
+    def deregister_shipment(company_code, transaction_code, opts = {})deregister_shipment28,0
+    def deregister_shipment_with_http_info(company_code, transaction_code, opts = {})deregister_shipment_with_http_info39,0
+    def register_shipment(company_code, transaction_code, opts = {})register_shipment102,0
+    def register_shipment_with_http_info(company_code, transaction_code, opts = {})register_shipment_with_http_info113,0
+    def register_shipment_if_compliant(company_code, transaction_code, opts = {})register_shipment_if_compliant176,0
+    def register_shipment_if_compliant_with_http_info(company_code, transaction_code, opts = {})register_shipment_if_compliant_with_http_info187,0
+    def verify_shipment(company_code, transaction_code, opts = {})verify_shipment251,0
+    def verify_shipment_with_http_info(company_code, transaction_code, opts = {})verify_shipment_with_http_info263,0
+
+lib/avalara_sdk/api_client.rb,1464
+module AvalaraSdkAvalaraSdk20,0
+  class ApiClientApiClient21,0
+  class ApiClientAvalaraSdk::ApiClient21,0
+    attr_accessor :configconfig23,0
+    attr_accessor :configconfig=23,0
+    attr_accessor :default_headersdefault_headers28,0
+    attr_accessor :default_headersdefault_headers=28,0
+    def initialize(config = Configuration.default)initialize32,0
+    def self.defaultdefault41,0
+    def call_api(http_method, path, opts = {})call_api49,0
+    def build_request(http_method, path, opts = {})build_request89,0
+    def build_request_body(header_params, form_params, body)build_request_body137,0
+    def download_file(request)download_file166,0
+    def json_mime?(mime)json_mime?205,0
+    def deserialize(response, return_type)deserialize213,0
+    def convert_to_type(data, return_type)convert_to_type247,0
+    def sanitize_filename(filename)sanitize_filename289,0
+    def build_request_url(path, opts = {})build_request_url293,0
+    def update_params_for_auth!(header_params, query_params, auth_names)update_params_for_auth!304,0
+    def user_agent=(user_agent)user_agent=319,0
+    def select_header_accept(accepts)select_header_accept327,0
+    def select_header_content_type(content_types)select_header_content_type337,0
+    def object_to_http_body(model)object_to_http_body348,0
+    def object_to_hash(obj)object_to_hash362,0
+    def build_collection_param(param, collection_format)build_collection_param372,0
+
+lib/avalara_sdk/api_error.rb,460
+module AvalaraSdkAvalaraSdk13,0
+  class ApiError < StandardErrorApiError14,0
+  class ApiError < StandardErrorAvalaraSdk::ApiError14,0
+    attr_reader :code, :response_headers, :response_bodycode15,0
+    attr_reader :code, :response_headers, :response_bodyresponse_headers15,0
+    attr_reader :code, :response_headers, :response_bodyresponse_body15,0
+    def initialize(arg = nil)initialize22,0
+    def to_sto_s39,0
+    def messagemessage43,0
+
+lib/avalara_sdk/configuration.rb,3317
+module AvalaraSdkAvalaraSdk13,0
+  class ConfigurationConfiguration14,0
+  class ConfigurationAvalaraSdk::Configuration14,0
+    attr_accessor :schemescheme16,0
+    attr_accessor :schemescheme=16,0
+    attr_accessor :hosthost19,0
+    attr_accessor :hosthost=19,0
+    attr_accessor :base_pathbase_path22,0
+    attr_accessor :base_pathbase_path=22,0
+    attr_accessor :server_indexserver_index25,0
+    attr_accessor :server_indexserver_index=25,0
+    attr_accessor :server_operation_indexserver_operation_index28,0
+    attr_accessor :server_operation_indexserver_operation_index=28,0
+    attr_accessor :server_variablesserver_variables31,0
+    attr_accessor :server_variablesserver_variables=31,0
+    attr_accessor :server_operation_variablesserver_operation_variables34,0
+    attr_accessor :server_operation_variablesserver_operation_variables=34,0
+    attr_accessor :api_keyapi_key42,0
+    attr_accessor :api_keyapi_key=42,0
+    attr_accessor :api_key_prefixapi_key_prefix50,0
+    attr_accessor :api_key_prefixapi_key_prefix=50,0
+    attr_accessor :usernameusername55,0
+    attr_accessor :usernameusername=55,0
+    attr_accessor :passwordpassword60,0
+    attr_accessor :passwordpassword=60,0
+    attr_accessor :access_tokenaccess_token63,0
+    attr_accessor :access_tokenaccess_token=63,0
+    attr_accessor :debuggingdebugging70,0
+    attr_accessor :debuggingdebugging=70,0
+    attr_accessor :loggerlogger76,0
+    attr_accessor :loggerlogger=76,0
+    attr_accessor :temp_folder_pathtemp_folder_path83,0
+    attr_accessor :temp_folder_pathtemp_folder_path=83,0
+    attr_accessor :timeouttimeout87,0
+    attr_accessor :timeouttimeout=87,0
+    attr_accessor :client_side_validationclient_side_validation92,0
+    attr_accessor :client_side_validationclient_side_validation=92,0
+    attr_accessor :verify_sslverify_ssl101,0
+    attr_accessor :verify_sslverify_ssl=101,0
+    attr_accessor :verify_ssl_hostverify_ssl_host110,0
+    attr_accessor :verify_ssl_hostverify_ssl_host=110,0
+    attr_accessor :ssl_ca_certssl_ca_cert119,0
+    attr_accessor :ssl_ca_certssl_ca_cert=119,0
+    attr_accessor :cert_filecert_file123,0
+    attr_accessor :cert_filecert_file=123,0
+    attr_accessor :key_filekey_file127,0
+    attr_accessor :key_filekey_file=127,0
+    attr_accessor :params_encodingparams_encoding134,0
+    attr_accessor :params_encodingparams_encoding=134,0
+    attr_accessor :inject_formatinject_format136,0
+    attr_accessor :inject_formatinject_format=136,0
+    attr_accessor :force_ending_formatforce_ending_format138,0
+    attr_accessor :force_ending_formatforce_ending_format=138,0
+    def initializeinitialize140,0
+    def self.defaultdefault166,0
+    def configureconfigure170,0
+    def scheme=(scheme)scheme=174,0
+    def host=(host)host=179,0
+    def base_path=(base_path)base_path=184,0
+    def base_url(operation = nil)base_url191,0
+    def api_key_with_prefix(param_name, param_alias = nil)api_key_with_prefix200,0
+    def basic_auth_tokenbasic_auth_token211,0
+    def auth_settingsauth_settings216,0
+    def server_settingsserver_settings236,0
+    def operation_server_settingsoperation_server_settings245,0
+    def server_url(index, variables = {}, servers = nil)server_url254,0
+
+lib/avalara_sdk/models/age_verify_failure_code.rb,1165
+module AvalaraSdkAvalaraSdk16,0
+  class AgeVerifyFailureCodeAgeVerifyFailureCode17,0
+  class AgeVerifyFailureCodeAvalaraSdk::AgeVerifyFailureCode17,0
+    NOT_FOUND = "not_found".freezeNOT_FOUND18,0
+    NOT_FOUND = "not_found".freezeAvalaraSdk::AgeVerifyFailureCode::NOT_FOUND18,0
+    DOB_UNVERIFIABLE = "dob_unverifiable".freezeDOB_UNVERIFIABLE19,0
+    DOB_UNVERIFIABLE = "dob_unverifiable".freezeAvalaraSdk::AgeVerifyFailureCode::DOB_UNVERIFIABLE19,0
+    UNDER_AGE = "under_age".freezeUNDER_AGE20,0
+    UNDER_AGE = "under_age".freezeAvalaraSdk::AgeVerifyFailureCode::UNDER_AGE20,0
+    SUSPECTED_FRAUD = "suspected_fraud".freezeSUSPECTED_FRAUD21,0
+    SUSPECTED_FRAUD = "suspected_fraud".freezeAvalaraSdk::AgeVerifyFailureCode::SUSPECTED_FRAUD21,0
+    DECEASED = "deceased".freezeDECEASED22,0
+    DECEASED = "deceased".freezeAvalaraSdk::AgeVerifyFailureCode::DECEASED22,0
+    UNKNOWN_ERROR = "unknown_error".freezeUNKNOWN_ERROR23,0
+    UNKNOWN_ERROR = "unknown_error".freezeAvalaraSdk::AgeVerifyFailureCode::UNKNOWN_ERROR23,0
+    def self.build_from_hash(value)build_from_hash28,0
+    def build_from_hash(value)build_from_hash35,0
+
+lib/avalara_sdk/models/age_verify_request.rb,1186
+module AvalaraSdkAvalaraSdk16,0
+  class AgeVerifyRequestAgeVerifyRequest18,0
+  class AgeVerifyRequestAvalaraSdk::AgeVerifyRequest18,0
+    attr_accessor :first_namefirst_name19,0
+    attr_accessor :first_namefirst_name=19,0
+    attr_accessor :last_namelast_name21,0
+    attr_accessor :last_namelast_name=21,0
+    attr_accessor :addressaddress23,0
+    attr_accessor :addressaddress=23,0
+    attr_accessor :dobdob26,0
+    attr_accessor :dobdob=26,0
+    def self.attribute_mapattribute_map29,0
+    def self.acceptable_attributesacceptable_attributes39,0
+    def self.openapi_typesopenapi_types44,0
+    def self.openapi_nullableopenapi_nullable54,0
+    def initialize(attributes = {})initialize61,0
+    def list_invalid_propertieslist_invalid_properties93,0
+    def valid?valid?100,0
+    def ==(o)==106,0
+    def eql?(o)eql?117,0
+    def hashhash123,0
+    def self.build_from_hash(attributes)build_from_hash130,0
+    def build_from_hash(attributes)build_from_hash137,0
+    def _deserialize(type, value)_deserialize160,0
+    def to_sto_s201,0
+    def to_bodyto_body207,0
+    def to_hashto_hash213,0
+    def _to_hash(value)_to_hash231,0
+
+lib/avalara_sdk/models/age_verify_request_address.rb,1685
+module AvalaraSdkAvalaraSdk16,0
+  class AgeVerifyRequestAddressAgeVerifyRequestAddress17,0
+  class AgeVerifyRequestAddressAvalaraSdk::AgeVerifyRequestAddress17,0
+    attr_accessor :line1line118,0
+    attr_accessor :line1line1=18,0
+    attr_accessor :citycity20,0
+    attr_accessor :citycity=20,0
+    attr_accessor :regionregion23,0
+    attr_accessor :regionregion=23,0
+    attr_accessor :countrycountry26,0
+    attr_accessor :countrycountry=26,0
+    attr_accessor :postal_codepostal_code28,0
+    attr_accessor :postal_codepostal_code=28,0
+    class EnumAttributeValidatorEnumAttributeValidator30,0
+    class EnumAttributeValidatorAvalaraSdk::AgeVerifyRequestAddress::EnumAttributeValidator30,0
+      attr_reader :datatypedatatype31,0
+      attr_reader :allowable_valuesallowable_values32,0
+      def initialize(datatype, allowable_values)initialize34,0
+      def valid?(value)valid?47,0
+    def self.attribute_mapattribute_map53,0
+    def self.acceptable_attributesacceptable_attributes64,0
+    def self.openapi_typesopenapi_types69,0
+    def self.openapi_nullableopenapi_nullable80,0
+    def initialize(attributes = {})initialize87,0
+    def list_invalid_propertieslist_invalid_properties123,0
+    def valid?valid?130,0
+    def country=(country)country=138,0
+    def ==(o)==148,0
+    def eql?(o)eql?160,0
+    def hashhash166,0
+    def self.build_from_hash(attributes)build_from_hash173,0
+    def build_from_hash(attributes)build_from_hash180,0
+    def _deserialize(type, value)_deserialize203,0
+    def to_sto_s244,0
+    def to_bodyto_body250,0
+    def to_hashto_hash256,0
+    def _to_hash(value)_to_hash274,0
+
+lib/avalara_sdk/models/age_verify_result.rb,1046
+module AvalaraSdkAvalaraSdk16,0
+  class AgeVerifyResultAgeVerifyResult18,0
+  class AgeVerifyResultAvalaraSdk::AgeVerifyResult18,0
+    attr_accessor :is_of_ageis_of_age20,0
+    attr_accessor :is_of_ageis_of_age=20,0
+    attr_accessor :failure_codesfailure_codes23,0
+    attr_accessor :failure_codesfailure_codes=23,0
+    def self.attribute_mapattribute_map26,0
+    def self.acceptable_attributesacceptable_attributes34,0
+    def self.openapi_typesopenapi_types39,0
+    def self.openapi_nullableopenapi_nullable47,0
+    def initialize(attributes = {})initialize54,0
+    def list_invalid_propertieslist_invalid_properties80,0
+    def valid?valid?87,0
+    def ==(o)==93,0
+    def eql?(o)eql?102,0
+    def hashhash108,0
+    def self.build_from_hash(attributes)build_from_hash115,0
+    def build_from_hash(attributes)build_from_hash122,0
+    def _deserialize(type, value)_deserialize145,0
+    def to_sto_s186,0
+    def to_bodyto_body192,0
+    def to_hashto_hash198,0
+    def _to_hash(value)_to_hash216,0
+
+lib/avalara_sdk/models/error_details.rb,911
+module AvalaraSdkAvalaraSdk16,0
+  class ErrorDetailsErrorDetails18,0
+  class ErrorDetailsAvalaraSdk::ErrorDetails18,0
+    attr_accessor :errorerror19,0
+    attr_accessor :errorerror=19,0
+    def self.attribute_mapattribute_map22,0
+    def self.acceptable_attributesacceptable_attributes29,0
+    def self.openapi_typesopenapi_types34,0
+    def self.openapi_nullableopenapi_nullable41,0
+    def initialize(attributes = {})initialize48,0
+    def list_invalid_propertieslist_invalid_properties68,0
+    def valid?valid?75,0
+    def ==(o)==81,0
+    def eql?(o)eql?89,0
+    def hashhash95,0
+    def self.build_from_hash(attributes)build_from_hash102,0
+    def build_from_hash(attributes)build_from_hash109,0
+    def _deserialize(type, value)_deserialize132,0
+    def to_sto_s173,0
+    def to_bodyto_body179,0
+    def to_hashto_hash185,0
+    def _to_hash(value)_to_hash203,0
+
+lib/avalara_sdk/models/error_details_error.rb,1480
+module AvalaraSdkAvalaraSdk16,0
+  class ErrorDetailsErrorErrorDetailsError18,0
+  class ErrorDetailsErrorAvalaraSdk::ErrorDetailsError18,0
+    attr_accessor :codecode20,0
+    attr_accessor :codecode=20,0
+    attr_accessor :messagemessage23,0
+    attr_accessor :messagemessage=23,0
+    attr_accessor :detailsdetails25,0
+    attr_accessor :detailsdetails=25,0
+    class EnumAttributeValidatorEnumAttributeValidator27,0
+    class EnumAttributeValidatorAvalaraSdk::ErrorDetailsError::EnumAttributeValidator27,0
+      attr_reader :datatypedatatype28,0
+      attr_reader :allowable_valuesallowable_values29,0
+      def initialize(datatype, allowable_values)initialize31,0
+      def valid?(value)valid?44,0
+    def self.attribute_mapattribute_map50,0
+    def self.acceptable_attributesacceptable_attributes59,0
+    def self.openapi_typesopenapi_types64,0
+    def self.openapi_nullableopenapi_nullable73,0
+    def initialize(attributes = {})initialize80,0
+    def list_invalid_propertieslist_invalid_properties108,0
+    def valid?valid?115,0
+    def code=(code)code=123,0
+    def ==(o)==133,0
+    def eql?(o)eql?143,0
+    def hashhash149,0
+    def self.build_from_hash(attributes)build_from_hash156,0
+    def build_from_hash(attributes)build_from_hash163,0
+    def _deserialize(type, value)_deserialize186,0
+    def to_sto_s227,0
+    def to_bodyto_body233,0
+    def to_hashto_hash239,0
+    def _to_hash(value)_to_hash257,0
+
+lib/avalara_sdk/models/error_details_error_details.rb,1920
+module AvalaraSdkAvalaraSdk16,0
+  class ErrorDetailsErrorDetailsErrorDetailsErrorDetails18,0
+  class ErrorDetailsErrorDetailsAvalaraSdk::ErrorDetailsErrorDetails18,0
+    attr_accessor :codecode20,0
+    attr_accessor :codecode=20,0
+    attr_accessor :messagemessage23,0
+    attr_accessor :messagemessage=23,0
+    attr_accessor :numbernumber26,0
+    attr_accessor :numbernumber=26,0
+    attr_accessor :descriptiondescription29,0
+    attr_accessor :descriptiondescription=29,0
+    attr_accessor :fault_codefault_code32,0
+    attr_accessor :fault_codefault_code=32,0
+    attr_accessor :help_linkhelp_link35,0
+    attr_accessor :help_linkhelp_link=35,0
+    attr_accessor :severityseverity38,0
+    attr_accessor :severityseverity=38,0
+    class EnumAttributeValidatorEnumAttributeValidator40,0
+    class EnumAttributeValidatorAvalaraSdk::ErrorDetailsErrorDetails::EnumAttributeValidator40,0
+      attr_reader :datatypedatatype41,0
+      attr_reader :allowable_valuesallowable_values42,0
+      def initialize(datatype, allowable_values)initialize44,0
+      def valid?(value)valid?57,0
+    def self.attribute_mapattribute_map63,0
+    def self.acceptable_attributesacceptable_attributes76,0
+    def self.openapi_typesopenapi_types81,0
+    def self.openapi_nullableopenapi_nullable94,0
+    def initialize(attributes = {})initialize101,0
+    def list_invalid_propertieslist_invalid_properties145,0
+    def valid?valid?152,0
+    def code=(code)code=162,0
+    def severity=(severity)severity=172,0
+    def ==(o)==182,0
+    def eql?(o)eql?196,0
+    def hashhash202,0
+    def self.build_from_hash(attributes)build_from_hash209,0
+    def build_from_hash(attributes)build_from_hash216,0
+    def _deserialize(type, value)_deserialize239,0
+    def to_sto_s280,0
+    def to_bodyto_body286,0
+    def to_hashto_hash292,0
+    def _to_hash(value)_to_hash310,0
+
+lib/avalara_sdk/models/shipping_verify_result.rb,1920
+module AvalaraSdkAvalaraSdk16,0
+  class ShippingVerifyResultShippingVerifyResult18,0
+  class ShippingVerifyResultAvalaraSdk::ShippingVerifyResult18,0
+    attr_accessor :compliantcompliant20,0
+    attr_accessor :compliantcompliant=20,0
+    attr_accessor :messagemessage23,0
+    attr_accessor :messagemessage=23,0
+    attr_accessor :success_messagessuccess_messages26,0
+    attr_accessor :success_messagessuccess_messages=26,0
+    attr_accessor :failure_messagesfailure_messages29,0
+    attr_accessor :failure_messagesfailure_messages=29,0
+    attr_accessor :failure_codesfailure_codes32,0
+    attr_accessor :failure_codesfailure_codes=32,0
+    attr_accessor :warning_codeswarning_codes35,0
+    attr_accessor :warning_codeswarning_codes=35,0
+    attr_accessor :lineslines38,0
+    attr_accessor :lineslines=38,0
+    class EnumAttributeValidatorEnumAttributeValidator40,0
+    class EnumAttributeValidatorAvalaraSdk::ShippingVerifyResult::EnumAttributeValidator40,0
+      attr_reader :datatypedatatype41,0
+      attr_reader :allowable_valuesallowable_values42,0
+      def initialize(datatype, allowable_values)initialize44,0
+      def valid?(value)valid?57,0
+    def self.attribute_mapattribute_map63,0
+    def self.acceptable_attributesacceptable_attributes76,0
+    def self.openapi_typesopenapi_types81,0
+    def self.openapi_nullableopenapi_nullable94,0
+    def initialize(attributes = {})initialize101,0
+    def list_invalid_propertieslist_invalid_properties151,0
+    def valid?valid?158,0
+    def ==(o)==164,0
+    def eql?(o)eql?178,0
+    def hashhash184,0
+    def self.build_from_hash(attributes)build_from_hash191,0
+    def build_from_hash(attributes)build_from_hash198,0
+    def _deserialize(type, value)_deserialize221,0
+    def to_sto_s262,0
+    def to_bodyto_body268,0
+    def to_hashto_hash274,0
+    def _to_hash(value)_to_hash292,0
+
+lib/avalara_sdk/models/shipping_verify_result_lines.rb,1924
+module AvalaraSdkAvalaraSdk16,0
+  class ShippingVerifyResultLinesShippingVerifyResultLines17,0
+  class ShippingVerifyResultLinesAvalaraSdk::ShippingVerifyResultLines17,0
+    attr_accessor :result_coderesult_code19,0
+    attr_accessor :result_coderesult_code=19,0
+    attr_accessor :line_numberline_number22,0
+    attr_accessor :line_numberline_number=22,0
+    attr_accessor :messagemessage25,0
+    attr_accessor :messagemessage=25,0
+    attr_accessor :success_messagessuccess_messages28,0
+    attr_accessor :success_messagessuccess_messages=28,0
+    attr_accessor :failure_messagesfailure_messages31,0
+    attr_accessor :failure_messagesfailure_messages=31,0
+    attr_accessor :failure_codesfailure_codes34,0
+    attr_accessor :failure_codesfailure_codes=34,0
+    class EnumAttributeValidatorEnumAttributeValidator36,0
+    class EnumAttributeValidatorAvalaraSdk::ShippingVerifyResultLines::EnumAttributeValidator36,0
+      attr_reader :datatypedatatype37,0
+      attr_reader :allowable_valuesallowable_values38,0
+      def initialize(datatype, allowable_values)initialize40,0
+      def valid?(value)valid?53,0
+    def self.attribute_mapattribute_map59,0
+    def self.acceptable_attributesacceptable_attributes71,0
+    def self.openapi_typesopenapi_types76,0
+    def self.openapi_nullableopenapi_nullable88,0
+    def initialize(attributes = {})initialize95,0
+    def list_invalid_propertieslist_invalid_properties137,0
+    def valid?valid?144,0
+    def result_code=(result_code)result_code=152,0
+    def ==(o)==162,0
+    def eql?(o)eql?175,0
+    def hashhash181,0
+    def self.build_from_hash(attributes)build_from_hash188,0
+    def build_from_hash(attributes)build_from_hash195,0
+    def _deserialize(type, value)_deserialize218,0
+    def to_sto_s259,0
+    def to_bodyto_body265,0
+    def to_hashto_hash271,0
+    def _to_hash(value)_to_hash289,0
+
+lib/avalara_sdk/version.rb,114
+module AvalaraSdkAvalaraSdk13,0
+  VERSION = '22.1.0'VERSION14,0
+  VERSION = '22.1.0'AvalaraSdk::VERSION14,0
+
+lib/avalara_sdk.rb,67
+module AvalaraSdkAvalaraSdk34,0
+    def configureconfigure42,0
