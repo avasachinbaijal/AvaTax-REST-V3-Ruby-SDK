@@ -1,4 +1,4 @@
-# AvalaraSdk::ErrorDetails
+# AvalaraSDK::ErrorDetails
 
 ## Properties
 
@@ -9,9 +9,9 @@
 ## Example
 
 ```ruby
-require 'avalara_sdk'
+require 'Avalara.SDK'
 
-instance = AvalaraSdk::ErrorDetails.new(
+instance = AvalaraSDK::ErrorDetails.new(
   error: null
 )
 ```
