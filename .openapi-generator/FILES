@@ -1,4 +1,3 @@
-.gitignore
 .rspec
 .rubocop.yml
 .travis.yml
@@ -21,9 +20,6 @@ git_push.sh
 lib/avalara_sdk.rb
 lib/avalara_sdk/api/age_verification_api.rb
 lib/avalara_sdk/api/shipping_verification_api.rb
-lib/avalara_sdk/api_client.rb
-lib/avalara_sdk/api_error.rb
-lib/avalara_sdk/configuration.rb
 lib/avalara_sdk/models/age_verify_failure_code.rb
 lib/avalara_sdk/models/age_verify_request.rb
 lib/avalara_sdk/models/age_verify_request_address.rb
@@ -33,7 +29,6 @@ lib/avalara_sdk/models/error_details_error.rb
 lib/avalara_sdk/models/error_details_error_details.rb
 lib/avalara_sdk/models/shipping_verify_result.rb
 lib/avalara_sdk/models/shipping_verify_result_lines.rb
-lib/avalara_sdk/version.rb
 spec/api_client_spec.rb
 spec/configuration_spec.rb
 spec/spec_helper.rb

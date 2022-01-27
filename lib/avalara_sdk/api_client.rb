@@ -318,9 +318,7 @@ module AvalaraSdk
     # @param [String] auth_names Authentication scheme name
     def update_params_for_auth!(header_params, query_params, auth_names)
       Array(auth_names).each do |auth_name|
-        puts auth_name
         auth_setting = @config.auth_settings[auth_name]
-        puts auth_setting
         next unless auth_setting
         case auth_setting[:in]
         when 'header' then 
