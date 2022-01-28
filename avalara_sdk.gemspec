@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 
 =begin
-#Avalara Shipping Verification for Beverage Alcohol
+#Avalara Shipping Verification only
 
 #API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. 
 
-SDK Version : 22.1.0
+SDK Version : 2.3.3
 
 
 =end
@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.authors     = ["OpenAPI-Generator"]
   s.email       = [""]
   s.homepage    = "https://openapi-generator.tech"
-  s.summary     = "Avalara Shipping Verification for Beverage Alcohol Ruby Gem"
+  s.summary     = "Avalara Shipping Verification only Ruby Gem"
   s.description = "API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. "
   s.license     = "Unlicense"
   s.required_ruby_version = ">= 2.4"
