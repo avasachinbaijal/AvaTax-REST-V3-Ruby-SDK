@@ -1,4 +1,4 @@
-# AvalaraSDK::ShippingVerifyResultLines
+# AvalaraSdk::ShippingVerifyResultLines
 
 ## Properties
 
@@ -14,9 +14,9 @@
 ## Example
 
 ```ruby
-require 'Avalara.SDK'
+require 'avalara_sdk'
 
-instance = AvalaraSDK::ShippingVerifyResultLines.new(
+instance = AvalaraSdk::ShippingVerifyResultLines.new(
   result_code: null,
   line_number: null,
   message: null,

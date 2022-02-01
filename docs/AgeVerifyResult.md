@@ -1,4 +1,4 @@
-# AvalaraSDK::AgeVerifyResult
+# AvalaraSdk::AgeVerifyResult
 
 ## Properties
 
@@ -10,9 +10,9 @@
 ## Example
 
 ```ruby
-require 'Avalara.SDK'
+require 'avalara_sdk'
 
-instance = AvalaraSDK::AgeVerifyResult.new(
+instance = AvalaraSdk::AgeVerifyResult.new(
   is_of_age: null,
   failure_codes: null
 )

@@ -1,4 +1,4 @@
-# AvalaraSDK::ShippingVerificationApi
+# AvalaraSdk::ShippingVerificationApi
 
 All URIs are relative to *http://localhost*
 
@@ -20,9 +20,9 @@ Removes the transaction from consideration when evaluating regulations that span
 
 ```ruby
 require 'time'
-require 'Avalara.SDK'
+require 'avalara_sdk'
 # setup authorization
-AvalaraSDK.configure do |config|
+AvalaraSdk.configure do |config|
   # Configure HTTP basic authorization: BasicAuth
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'
@@ -33,7 +33,7 @@ AvalaraSDK.configure do |config|
   # config.api_key_prefix['Bearer'] = 'Bearer'
 end
 
-api_instance = AvalaraSDK::ShippingVerificationApi.new
+api_instance = AvalaraSdk::ShippingVerificationApi.new
 company_code = 'company_code_example' # String | The company code of the company that recorded the transaction
 transaction_code = 'transaction_code_example' # String | The transaction code to retrieve
 opts = {
@@ -43,7 +43,7 @@ opts = {
 begin
   # Removes the transaction from consideration when evaluating regulations that span multiple transactions.
   api_instance.deregister_shipment(company_code, transaction_code, opts)
-rescue AvalaraSDK::ApiError => e
+rescue AvalaraSdk::ApiError => e
   puts "Error when calling ShippingVerificationApi->deregister_shipment: #{e}"
 end
 ```
@@ -61,7 +61,7 @@ begin
   p status_code # => 2xx
   p headers # => { ... }
   p data # => nil
-rescue AvalaraSDK::ApiError => e
+rescue AvalaraSdk::ApiError => e
   puts "Error when calling ShippingVerificationApi->deregister_shipment_with_http_info: #{e}"
 end
 ```
@@ -98,9 +98,9 @@ Registers the transaction so that it may be included when evaluating regulations
 
 ```ruby
 require 'time'
-require 'Avalara.SDK'
+require 'avalara_sdk'
 # setup authorization
-AvalaraSDK.configure do |config|
+AvalaraSdk.configure do |config|
   # Configure HTTP basic authorization: BasicAuth
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'
@@ -111,7 +111,7 @@ AvalaraSDK.configure do |config|
   # config.api_key_prefix['Bearer'] = 'Bearer'
 end
 
-api_instance = AvalaraSDK::ShippingVerificationApi.new
+api_instance = AvalaraSdk::ShippingVerificationApi.new
 company_code = 'company_code_example' # String | The company code of the company that recorded the transaction
 transaction_code = 'transaction_code_example' # String | The transaction code to retrieve
 opts = {
@@ -121,7 +121,7 @@ opts = {
 begin
   # Registers the transaction so that it may be included when evaluating regulations that span multiple transactions.
   api_instance.register_shipment(company_code, transaction_code, opts)
-rescue AvalaraSDK::ApiError => e
+rescue AvalaraSdk::ApiError => e
   puts "Error when calling ShippingVerificationApi->register_shipment: #{e}"
 end
 ```
@@ -139,7 +139,7 @@ begin
   p status_code # => 2xx
   p headers # => { ... }
   p data # => nil
-rescue AvalaraSDK::ApiError => e
+rescue AvalaraSdk::ApiError => e
   puts "Error when calling ShippingVerificationApi->register_shipment_with_http_info: #{e}"
 end
 ```
@@ -176,9 +176,9 @@ Evaluates a transaction against a set of direct-to-consumer shipping regulations
 
 ```ruby
 require 'time'
-require 'Avalara.SDK'
+require 'avalara_sdk'
 # setup authorization
-AvalaraSDK.configure do |config|
+AvalaraSdk.configure do |config|
   # Configure HTTP basic authorization: BasicAuth
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'
@@ -189,7 +189,7 @@ AvalaraSDK.configure do |config|
   # config.api_key_prefix['Bearer'] = 'Bearer'
 end
 
-api_instance = AvalaraSDK::ShippingVerificationApi.new
+api_instance = AvalaraSdk::ShippingVerificationApi.new
 company_code = 'company_code_example' # String | The company code of the company that recorded the transaction
 transaction_code = 'transaction_code_example' # String | The transaction code to retrieve
 opts = {
@@ -200,7 +200,7 @@ begin
   # Evaluates a transaction against a set of direct-to-consumer shipping regulations and, if compliant, registers the transaction so that it may be included when evaluating regulations that span multiple transactions.
   result = api_instance.register_shipment_if_compliant(company_code, transaction_code, opts)
   p result
-rescue AvalaraSDK::ApiError => e
+rescue AvalaraSdk::ApiError => e
   puts "Error when calling ShippingVerificationApi->register_shipment_if_compliant: #{e}"
 end
 ```
@@ -218,7 +218,7 @@ begin
   p status_code # => 2xx
   p headers # => { ... }
   p data # => <ShippingVerifyResult>
-rescue AvalaraSDK::ApiError => e
+rescue AvalaraSdk::ApiError => e
   puts "Error when calling ShippingVerificationApi->register_shipment_if_compliant_with_http_info: #{e}"
 end
 ```
@@ -257,9 +257,9 @@ The transaction and its lines must meet the following criteria in order to be ev
 
 ```ruby
 require 'time'
-require 'Avalara.SDK'
+require 'avalara_sdk'
 # setup authorization
-AvalaraSDK.configure do |config|
+AvalaraSdk.configure do |config|
   # Configure HTTP basic authorization: BasicAuth
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'
@@ -270,7 +270,7 @@ AvalaraSDK.configure do |config|
   # config.api_key_prefix['Bearer'] = 'Bearer'
 end
 
-api_instance = AvalaraSDK::ShippingVerificationApi.new
+api_instance = AvalaraSdk::ShippingVerificationApi.new
 company_code = 'company_code_example' # String | The company code of the company that recorded the transaction
 transaction_code = 'transaction_code_example' # String | The transaction code to retrieve
 opts = {
@@ -281,7 +281,7 @@ begin
   # Evaluates a transaction against a set of direct-to-consumer shipping regulations.
   result = api_instance.verify_shipment(company_code, transaction_code, opts)
   p result
-rescue AvalaraSDK::ApiError => e
+rescue AvalaraSdk::ApiError => e
   puts "Error when calling ShippingVerificationApi->verify_shipment: #{e}"
 end
 ```
@@ -299,7 +299,7 @@ begin
   p status_code # => 2xx
   p headers # => { ... }
   p data # => <ShippingVerifyResult>
-rescue AvalaraSDK::ApiError => e
+rescue AvalaraSdk::ApiError => e
   puts "Error when calling ShippingVerificationApi->verify_shipment_with_http_info: #{e}"
 end
 ```
