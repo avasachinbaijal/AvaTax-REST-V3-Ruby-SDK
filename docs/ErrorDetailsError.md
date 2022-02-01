@@ -1,4 +1,4 @@
-# AvalaraSdk::ErrorDetailsError
+# AvalaraSDK::ErrorDetailsError
 
 ## Properties
 
@@ -11,9 +11,9 @@
 ## Example
 
 ```ruby
-require 'avalara_sdk'
+require 'Avalara.SDK'
 
-instance = AvalaraSdk::ErrorDetailsError.new(
+instance = AvalaraSDK::ErrorDetailsError.new(
   code: InvalidAddress,
   message: The address is not deliverable.,
   details: null
