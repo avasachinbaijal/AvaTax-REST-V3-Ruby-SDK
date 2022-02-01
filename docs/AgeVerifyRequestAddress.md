@@ -1,4 +1,4 @@
-# AvalaraSDK::AgeVerifyRequestAddress
+# AvalaraSdk::AgeVerifyRequestAddress
 
 ## Properties
 
@@ -13,9 +13,9 @@
 ## Example
 
 ```ruby
-require 'Avalara.SDK'
+require 'avalara_sdk'
 
-instance = AvalaraSDK::AgeVerifyRequestAddress.new(
+instance = AvalaraSdk::AgeVerifyRequestAddress.new(
   line1: null,
   city: null,
   region: null,
