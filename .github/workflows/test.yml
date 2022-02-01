@@ -19,7 +19,7 @@ jobs:
 
     - name: Build & test
       run: |
-        gem build avalara_sdk.gemspec
+        gem build *.gemspec
         bundle config set --local path 'vendor/bundle'
         bundle install
         bundle exec rspec
