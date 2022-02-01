@@ -22,4 +22,4 @@ jobs:
         gem install bundler:2.3.6
         bundle config set --local path 'vendor/bundle'
         bundle install
-        bundle exec rspec
+        USERNAME='${{ secrets.API_USERNAME }}' PASSWORD='${{ secrets.API_PASSWORD }}' bundle exec rspec
