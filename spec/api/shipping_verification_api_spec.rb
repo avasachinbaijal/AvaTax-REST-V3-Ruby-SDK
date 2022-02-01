@@ -19,7 +19,19 @@ require 'json'
 describe 'ShippingVerificationApi' do
   before do
     # run before each test
-    @api_instance = AvalaraSdk::ShippingVerificationApi.new
+    config = AvalaraSdk::Configuration.new  
+    config.username = ''
+    config.password = ''
+    config.environment='test'
+    config.test_url='https://sandbox-rest.avatax.com'
+    config.verify_ssl=false
+    config.debugging=true
+    config.app_name="testApp"
+    config.app_version="2.3.1"
+    config.machine_name="AVL_WIN_007"
+    # run before each test
+    @api_client = AvalaraSdk::ApiClient.new(config)
+    @api_instance = AvalaraSdk::ShippingVerificationApi.new(@api_client)
   end
 
   after do
