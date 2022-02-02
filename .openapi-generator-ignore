@@ -10,6 +10,8 @@
 lib/avalara_sdk/api_client.rb
 lib/avalara_sdk/api_error.rb
 lib/avalara_sdk/configuration.rb
+spec/*
+
 # You can match any string of characters against a directory, file or extension with a single asterisk (*):
 #foo/*/qux
 # The above matches foo/bar/qux and foo/baz/qux, but not foo/bar/baz/qux
