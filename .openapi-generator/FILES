@@ -30,6 +30,3 @@ lib/avalara_sdk/models/error_details_error_details.rb
 lib/avalara_sdk/models/shipping_verify_result.rb
 lib/avalara_sdk/models/shipping_verify_result_lines.rb
 lib/avalara_sdk/version.rb
-spec/api_client_spec.rb
-spec/configuration_spec.rb
-spec/spec_helper.rb
