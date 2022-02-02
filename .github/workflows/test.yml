@@ -1,6 +1,11 @@
 name: Ruby Test
 
-on: push
+on:
+  pull_request_target:
+    types:
+      - opened
+    branches:    
+      - 'main'
 
 jobs:
   build:
