@@ -1,4 +1,4 @@
-# AvalaraSdk::AgeVerifyFailureCode
+# OpenapiClient::AgeVerifyFailureCode
 
 ## Properties
 
@@ -8,8 +8,8 @@
 ## Example
 
 ```ruby
-require 'avalara_sdk'
+require 'openapi_client'
 
-instance = AvalaraSdk::AgeVerifyFailureCode.new()
+instance = OpenapiClient::AgeVerifyFailureCode.new()
 ```
 

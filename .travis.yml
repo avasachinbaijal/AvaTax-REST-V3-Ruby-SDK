@@ -10,5 +10,5 @@ rvm:
 script:
   - bundle install --path vendor/bundle
   - bundle exec rspec
-  - gem build avalara_sdk.gemspec
-  - gem install ./avalara_sdk-2.4.7.gem
+  - gem build openapi_client.gemspec
+  - gem install ./openapi_client-2.4.13.gem
