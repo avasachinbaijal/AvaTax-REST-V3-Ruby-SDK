@@ -1,4 +1,4 @@
-# AvalaraSdk::ErrorDetails
+# OpenapiClient::ErrorDetails
 
 ## Properties
 
@@ -9,9 +9,9 @@
 ## Example
 
 ```ruby
-require 'avalara_sdk'
+require 'openapi_client'
 
-instance = AvalaraSdk::ErrorDetails.new(
+instance = OpenapiClient::ErrorDetails.new(
   error: null
 )
 ```

@@ -1,4 +1,4 @@
-# AvalaraSdk::AgeVerificationApi
+# OpenapiClient::AgeVerificationApi
 
 All URIs are relative to *http://localhost*
 
@@ -19,9 +19,9 @@ The request must meet the following criteria in order to be evaluated: * *firstN
 
 ```ruby
 require 'time'
-require 'avalara_sdk'
+require 'openapi_client'
 # setup authorization
-AvalaraSdk.configure do |config|
+OpenapiClient.configure do |config|
   # Configure HTTP basic authorization: BasicAuth
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'
@@ -32,17 +32,17 @@ AvalaraSdk.configure do |config|
   # config.api_key_prefix['Bearer'] = 'Bearer'
 end
 
-api_instance = AvalaraSdk::AgeVerificationApi.new
-age_verify_request = AvalaraSdk::AgeVerifyRequest.new # AgeVerifyRequest | Information about the individual whose age is being verified.
+api_instance = OpenapiClient::AgeVerificationApi.new
+age_verify_request = OpenapiClient::AgeVerifyRequest.new # AgeVerifyRequest | Information about the individual whose age is being verified.
 opts = {
-  simulated_failure_code: AvalaraSdk::AgeVerifyFailureCode::NOT_FOUND # AgeVerifyFailureCode | (Optional) The failure code included in the simulated response of the endpoint. Note that this endpoint is only available in Sandbox for testing purposes.
+  simulated_failure_code: OpenapiClient::AgeVerifyFailureCode::NOT_FOUND # AgeVerifyFailureCode | (Optional) The failure code included in the simulated response of the endpoint. Note that this endpoint is only available in Sandbox for testing purposes.
 }
 
 begin
   # Determines whether an individual meets or exceeds the minimum legal drinking age.
   result = api_instance.verify_age(age_verify_request, opts)
   p result
-rescue AvalaraSdk::ApiError => e
+rescue OpenapiClient::ApiError => e
   puts "Error when calling AgeVerificationApi->verify_age: #{e}"
 end
 ```
@@ -60,7 +60,7 @@ begin
   p status_code # => 2xx
   p headers # => { ... }
   p data # => <AgeVerifyResult>
-rescue AvalaraSdk::ApiError => e
+rescue OpenapiClient::ApiError => e
   puts "Error when calling AgeVerificationApi->verify_age_with_http_info: #{e}"
 end
 ```
