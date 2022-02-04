@@ -1,4 +1,4 @@
-# AvalaraSdk::ErrorDetailsErrorDetails
+# OpenapiClient::ErrorDetailsErrorDetails
 
 ## Properties
 
@@ -15,9 +15,9 @@
 ## Example
 
 ```ruby
-require 'avalara_sdk'
+require 'openapi_client'
 
-instance = AvalaraSdk::ErrorDetailsErrorDetails.new(
+instance = OpenapiClient::ErrorDetailsErrorDetails.new(
   code: InvalidAddress,
   message: The address is not deliverable.,
   number: 309,
