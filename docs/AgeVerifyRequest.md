@@ -1,4 +1,4 @@
-# AvalaraSdk::AgeVerifyRequest
+# OpenapiClient::AgeVerifyRequest
 
 ## Properties
 
@@ -12,9 +12,9 @@
 ## Example
 
 ```ruby
-require 'avalara_sdk'
+require 'openapi_client'
 
-instance = AvalaraSdk::AgeVerifyRequest.new(
+instance = OpenapiClient::AgeVerifyRequest.new(
   first_name: null,
   last_name: null,
   address: null,
