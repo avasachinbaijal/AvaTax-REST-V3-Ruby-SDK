@@ -7,7 +7,7 @@ API for evaluating transactions against direct-to-consumer Beverage Alcohol ship
 This API is currently in beta.
 
 
-- Package version: 2.4.26
+- Package version: 2.4.27
 
 ## Installation
 
