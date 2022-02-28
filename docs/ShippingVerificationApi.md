@@ -23,17 +23,26 @@ require 'time'
 require 'avalara_sdk'
 # setup authorization
 AvalaraSdk.configure do |config|
-  # Configure HTTP basic authorization: BasicAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  config.username = 'YOUR_USERNAME'
+  config.password = 'YOUR_PASSWORD'
+  config.environment='sandbox'
+  config.verify_ssl=false
+  config.app_name='testApp'
+  config.app_version='1.2.3'
+  config.machine_name='testMachine'
 
-  # Configure API key authorization: Bearer
-  config.api_key['Bearer'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['Bearer'] = 'Bearer'
+  config.username = 'YOUR_USERNAME'
+  config.password = 'YOUR_PASSWORD'
+  config.environment='sandbox'
+  config.verify_ssl=false
+  config.app_name='testApp'
+  config.app_version='1.2.3'
+  config.machine_name='testMachine'
 end
 
-api_instance = AvalaraSdk::ShippingVerificationApi.new
+api_client = AvalaraSdk::ApiClient.new config
+api_instance = AvalaraSdk::ShippingVerificationApi.new api_client
+
 company_code = 'company_code_example' # String | The company code of the company that recorded the transaction
 transaction_code = 'transaction_code_example' # String | The transaction code to retrieve
 opts = {
@@ -101,17 +110,26 @@ require 'time'
 require 'avalara_sdk'
 # setup authorization
 AvalaraSdk.configure do |config|
-  # Configure HTTP basic authorization: BasicAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  config.username = 'YOUR_USERNAME'
+  config.password = 'YOUR_PASSWORD'
+  config.environment='sandbox'
+  config.verify_ssl=false
+  config.app_name='testApp'
+  config.app_version='1.2.3'
+  config.machine_name='testMachine'
 
-  # Configure API key authorization: Bearer
-  config.api_key['Bearer'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['Bearer'] = 'Bearer'
+  config.username = 'YOUR_USERNAME'
+  config.password = 'YOUR_PASSWORD'
+  config.environment='sandbox'
+  config.verify_ssl=false
+  config.app_name='testApp'
+  config.app_version='1.2.3'
+  config.machine_name='testMachine'
 end
 
-api_instance = AvalaraSdk::ShippingVerificationApi.new
+api_client = AvalaraSdk::ApiClient.new config
+api_instance = AvalaraSdk::ShippingVerificationApi.new api_client
+
 company_code = 'company_code_example' # String | The company code of the company that recorded the transaction
 transaction_code = 'transaction_code_example' # String | The transaction code to retrieve
 opts = {
@@ -179,17 +197,26 @@ require 'time'
 require 'avalara_sdk'
 # setup authorization
 AvalaraSdk.configure do |config|
-  # Configure HTTP basic authorization: BasicAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  config.username = 'YOUR_USERNAME'
+  config.password = 'YOUR_PASSWORD'
+  config.environment='sandbox'
+  config.verify_ssl=false
+  config.app_name='testApp'
+  config.app_version='1.2.3'
+  config.machine_name='testMachine'
 
-  # Configure API key authorization: Bearer
-  config.api_key['Bearer'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['Bearer'] = 'Bearer'
+  config.username = 'YOUR_USERNAME'
+  config.password = 'YOUR_PASSWORD'
+  config.environment='sandbox'
+  config.verify_ssl=false
+  config.app_name='testApp'
+  config.app_version='1.2.3'
+  config.machine_name='testMachine'
 end
 
-api_instance = AvalaraSdk::ShippingVerificationApi.new
+api_client = AvalaraSdk::ApiClient.new config
+api_instance = AvalaraSdk::ShippingVerificationApi.new api_client
+
 company_code = 'company_code_example' # String | The company code of the company that recorded the transaction
 transaction_code = 'transaction_code_example' # String | The transaction code to retrieve
 opts = {
@@ -260,17 +287,26 @@ require 'time'
 require 'avalara_sdk'
 # setup authorization
 AvalaraSdk.configure do |config|
-  # Configure HTTP basic authorization: BasicAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  config.username = 'YOUR_USERNAME'
+  config.password = 'YOUR_PASSWORD'
+  config.environment='sandbox'
+  config.verify_ssl=false
+  config.app_name='testApp'
+  config.app_version='1.2.3'
+  config.machine_name='testMachine'
 
-  # Configure API key authorization: Bearer
-  config.api_key['Bearer'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['Bearer'] = 'Bearer'
+  config.username = 'YOUR_USERNAME'
+  config.password = 'YOUR_PASSWORD'
+  config.environment='sandbox'
+  config.verify_ssl=false
+  config.app_name='testApp'
+  config.app_version='1.2.3'
+  config.machine_name='testMachine'
 end
 
-api_instance = AvalaraSdk::ShippingVerificationApi.new
+api_client = AvalaraSdk::ApiClient.new config
+api_instance = AvalaraSdk::ShippingVerificationApi.new api_client
+
 company_code = 'company_code_example' # String | The company code of the company that recorded the transaction
 transaction_code = 'transaction_code_example' # String | The transaction code to retrieve
 opts = {

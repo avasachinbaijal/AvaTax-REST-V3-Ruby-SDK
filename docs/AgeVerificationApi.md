@@ -22,17 +22,26 @@ require 'time'
 require 'avalara_sdk'
 # setup authorization
 AvalaraSdk.configure do |config|
-  # Configure HTTP basic authorization: BasicAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  config.username = 'YOUR_USERNAME'
+  config.password = 'YOUR_PASSWORD'
+  config.environment='sandbox'
+  config.verify_ssl=false
+  config.app_name='testApp'
+  config.app_version='1.2.3'
+  config.machine_name='testMachine'
 
-  # Configure API key authorization: Bearer
-  config.api_key['Bearer'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['Bearer'] = 'Bearer'
+  config.username = 'YOUR_USERNAME'
+  config.password = 'YOUR_PASSWORD'
+  config.environment='sandbox'
+  config.verify_ssl=false
+  config.app_name='testApp'
+  config.app_version='1.2.3'
+  config.machine_name='testMachine'
 end
 
-api_instance = AvalaraSdk::AgeVerificationApi.new
+api_client = AvalaraSdk::ApiClient.new config
+api_instance = AvalaraSdk::AgeVerificationApi.new api_client
+
 age_verify_request = AvalaraSdk::AgeVerifyRequest.new # AgeVerifyRequest | Information about the individual whose age is being verified.
 opts = {
   simulated_failure_code: AvalaraSdk::AgeVerifyFailureCode::NOT_FOUND # AgeVerifyFailureCode | (Optional) The failure code included in the simulated response of the endpoint. Note that this endpoint is only available in Sandbox for testing purposes.
