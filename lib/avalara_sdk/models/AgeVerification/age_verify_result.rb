@@ -3,7 +3,7 @@
 
 #API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. 
 
-SDK Version : 2.4.26
+SDK Version : 2.4.29
 
 
 =end
@@ -11,7 +11,7 @@ SDK Version : 2.4.26
 require 'date'
 require 'time'
 
-module AvalaraSdk
+module AvalaraSdk::AgeVerification
   # The Result of a call to the /ageVerification/verify endpoint.
   class AgeVerifyResult
     # Describes whether the individual meets or exceeds the minimum legal drinking age.
@@ -51,13 +51,13 @@ module AvalaraSdk
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `AvalaraSdk::AgeVerifyResult` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `AvalaraSdk::AgeVerification::AgeVerifyResult` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `AvalaraSdk::AgeVerifyResult`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `AvalaraSdk::AgeVerification::AgeVerifyResult`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
@@ -174,7 +174,7 @@ module AvalaraSdk
         end
       else # model
         # models (e.g. Pet) or oneOf
-        klass = AvalaraSdk.const_get(type)
+        klass = AvalaraSdk::AgeVerification.const_get(type)
         klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
       end
     end

@@ -3,7 +3,7 @@
 
 #API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. 
 
-SDK Version : 2.4.26
+SDK Version : 2.4.29
 
 
 =end
@@ -11,50 +11,25 @@ SDK Version : 2.4.26
 require 'date'
 require 'time'
 
-module AvalaraSdk
-  class AgeVerifyRequestAddress
-    attr_accessor :line1
+module AvalaraSdk::AgeVerification
+  # The Request for the /ageVerification/verify endpoint. Describes information about the person whose age is being verified.
+  class AgeVerifyRequest
+    attr_accessor :first_name
 
-    attr_accessor :city
+    attr_accessor :last_name
 
-    # The state code of the address.
-    attr_accessor :region
+    attr_accessor :address
 
-    # The country code of the address.
-    attr_accessor :country
-
-    attr_accessor :postal_code
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
+    # The value should be ISO-8601 compliant (e.g. 2020-07-21).
+    attr_accessor :dob
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'line1' => :'line1',
-        :'city' => :'city',
-        :'region' => :'region',
-        :'country' => :'country',
-        :'postal_code' => :'postalCode'
+        :'first_name' => :'firstName',
+        :'last_name' => :'lastName',
+        :'address' => :'address',
+        :'dob' => :'DOB'
       }
     end
 
@@ -66,11 +41,10 @@ module AvalaraSdk
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'line1' => :'String',
-        :'city' => :'String',
-        :'region' => :'String',
-        :'country' => :'String',
-        :'postal_code' => :'String'
+        :'first_name' => :'String',
+        :'last_name' => :'String',
+        :'address' => :'AgeVerifyRequestAddress',
+        :'dob' => :'String'
       }
     end
 
@@ -84,35 +58,31 @@ module AvalaraSdk
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `AvalaraSdk::AgeVerifyRequestAddress` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `AvalaraSdk::AgeVerification::AgeVerifyRequest` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `AvalaraSdk::AgeVerifyRequestAddress`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `AvalaraSdk::AgeVerification::AgeVerifyRequest`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'line1')
-        self.line1 = attributes[:'line1']
+      if attributes.key?(:'first_name')
+        self.first_name = attributes[:'first_name']
       end
 
-      if attributes.key?(:'city')
-        self.city = attributes[:'city']
+      if attributes.key?(:'last_name')
+        self.last_name = attributes[:'last_name']
       end
 
-      if attributes.key?(:'region')
-        self.region = attributes[:'region']
+      if attributes.key?(:'address')
+        self.address = attributes[:'address']
       end
 
-      if attributes.key?(:'country')
-        self.country = attributes[:'country']
-      end
-
-      if attributes.key?(:'postal_code')
-        self.postal_code = attributes[:'postal_code']
+      if attributes.key?(:'dob')
+        self.dob = attributes[:'dob']
       end
     end
 
@@ -126,19 +96,7 @@ module AvalaraSdk
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      country_validator = EnumAttributeValidator.new('String', ["US", "USA"])
-      return false unless country_validator.valid?(@country)
       true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] country Object to be assigned
-    def country=(country)
-      validator = EnumAttributeValidator.new('String', ["US", "USA"])
-      unless validator.valid?(country)
-        fail ArgumentError, "invalid value for \"country\", must be one of #{validator.allowable_values}."
-      end
-      @country = country
     end
 
     # Checks equality by comparing each attribute.
@@ -146,11 +104,10 @@ module AvalaraSdk
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          line1 == o.line1 &&
-          city == o.city &&
-          region == o.region &&
-          country == o.country &&
-          postal_code == o.postal_code
+          first_name == o.first_name &&
+          last_name == o.last_name &&
+          address == o.address &&
+          dob == o.dob
     end
 
     # @see the `==` method
@@ -162,7 +119,7 @@ module AvalaraSdk
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [line1, city, region, country, postal_code].hash
+      [first_name, last_name, address, dob].hash
     end
 
     # Builds the object from hash
@@ -232,7 +189,7 @@ module AvalaraSdk
         end
       else # model
         # models (e.g. Pet) or oneOf
-        klass = AvalaraSdk.const_get(type)
+        klass = AvalaraSdk::AgeVerification.const_get(type)
         klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
       end
     end

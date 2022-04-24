@@ -1,9 +1,9 @@
 =begin
-#Avalara Shipping Verification only
+#Avalara Shipping Verification for Beverage Alcohol
 
 #API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. 
 
-SDK Version : 2.4.26
+SDK Version : 2.4.29
 
 
 =end
@@ -11,25 +11,16 @@ SDK Version : 2.4.26
 require 'date'
 require 'time'
 
-module AvalaraSdk
-  class ShippingVerifyResultLines
-    # Describes whether the line is compliant or not. In cases where a determination could not be made, resultCode will provide the reason why.
-    attr_accessor :result_code
+module AvalaraSdk::Shipping
+  # An object holding details about the error.
+  class ErrorDetailsError
+    # Name of the error or message.
+    attr_accessor :code
 
-    # The lineNumber of the line evaluated.
-    attr_accessor :line_number
-
-    # A short description of the result of the checks made against this line.
+    # Concise summary of the message, suitable for display in the caption of an alert box.
     attr_accessor :message
 
-    # A detailed description of the result of each of the passed checks made against this line.
-    attr_accessor :success_messages
-
-    # A detailed description of the result of each of the failed checks made against this line.
-    attr_accessor :failure_messages
-
-    # An enumeration of all the failure codes received for this line.
-    attr_accessor :failure_codes
+    attr_accessor :details
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -56,12 +47,9 @@ module AvalaraSdk
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'result_code' => :'resultCode',
-        :'line_number' => :'lineNumber',
+        :'code' => :'code',
         :'message' => :'message',
-        :'success_messages' => :'successMessages',
-        :'failure_messages' => :'failureMessages',
-        :'failure_codes' => :'failureCodes'
+        :'details' => :'details'
       }
     end
 
@@ -73,12 +61,9 @@ module AvalaraSdk
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'result_code' => :'String',
-        :'line_number' => :'String',
+        :'code' => :'String',
         :'message' => :'String',
-        :'success_messages' => :'String',
-        :'failure_messages' => :'String',
-        :'failure_codes' => :'Array<String>'
+        :'details' => :'ErrorDetailsErrorDetails'
       }
     end
 
@@ -92,41 +77,27 @@ module AvalaraSdk
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `AvalaraSdk::ShippingVerifyResultLines` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `AvalaraSdk::Shipping::ErrorDetailsError` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `AvalaraSdk::ShippingVerifyResultLines`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `AvalaraSdk::Shipping::ErrorDetailsError`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'result_code')
-        self.result_code = attributes[:'result_code']
-      end
-
-      if attributes.key?(:'line_number')
-        self.line_number = attributes[:'line_number']
+      if attributes.key?(:'code')
+        self.code = attributes[:'code']
       end
 
       if attributes.key?(:'message')
         self.message = attributes[:'message']
       end
 
-      if attributes.key?(:'success_messages')
-        self.success_messages = attributes[:'success_messages']
-      end
-
-      if attributes.key?(:'failure_messages')
-        self.failure_messages = attributes[:'failure_messages']
-      end
-
-      if attributes.key?(:'failure_codes')
-        if (value = attributes[:'failure_codes']).is_a?(Array)
-          self.failure_codes = value
-        end
+      if attributes.key?(:'details')
+        self.details = attributes[:'details']
       end
     end
 
@@ -140,19 +111,19 @@ module AvalaraSdk
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      result_code_validator = EnumAttributeValidator.new('String', ["Compliant", "NotCompliant", "UnsupportedTaxCode", "UnsupportedAddress", "InvalidLine"])
-      return false unless result_code_validator.valid?(@result_code)
+      code_validator = EnumAttributeValidator.new('String', ["AuthenticationException", "SubscriptionRequired", "ServerConfiguration", "InvalidAddress", "EntityNotFoundError"])
+      return false unless code_validator.valid?(@code)
       true
     end
 
     # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] result_code Object to be assigned
-    def result_code=(result_code)
-      validator = EnumAttributeValidator.new('String', ["Compliant", "NotCompliant", "UnsupportedTaxCode", "UnsupportedAddress", "InvalidLine"])
-      unless validator.valid?(result_code)
-        fail ArgumentError, "invalid value for \"result_code\", must be one of #{validator.allowable_values}."
+    # @param [Object] code Object to be assigned
+    def code=(code)
+      validator = EnumAttributeValidator.new('String', ["AuthenticationException", "SubscriptionRequired", "ServerConfiguration", "InvalidAddress", "EntityNotFoundError"])
+      unless validator.valid?(code)
+        fail ArgumentError, "invalid value for \"code\", must be one of #{validator.allowable_values}."
       end
-      @result_code = result_code
+      @code = code
     end
 
     # Checks equality by comparing each attribute.
@@ -160,12 +131,9 @@ module AvalaraSdk
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          result_code == o.result_code &&
-          line_number == o.line_number &&
+          code == o.code &&
           message == o.message &&
-          success_messages == o.success_messages &&
-          failure_messages == o.failure_messages &&
-          failure_codes == o.failure_codes
+          details == o.details
     end
 
     # @see the `==` method
@@ -177,7 +145,7 @@ module AvalaraSdk
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [result_code, line_number, message, success_messages, failure_messages, failure_codes].hash
+      [code, message, details].hash
     end
 
     # Builds the object from hash
@@ -247,7 +215,7 @@ module AvalaraSdk
         end
       else # model
         # models (e.g. Pet) or oneOf
-        klass = AvalaraSdk.const_get(type)
+        klass = AvalaraSdk::Shipping.const_get(type)
         klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
       end
     end

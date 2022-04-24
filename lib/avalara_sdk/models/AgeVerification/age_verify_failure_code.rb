@@ -3,7 +3,7 @@
 
 #API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. 
 
-SDK Version : 2.4.26
+SDK Version : 2.4.29
 
 
 =end
@@ -11,7 +11,7 @@ SDK Version : 2.4.26
 require 'date'
 require 'time'
 
-module AvalaraSdk
+module AvalaraSdk::AgeVerification
   class AgeVerifyFailureCode
     NOT_FOUND = "not_found".freeze
     DOB_UNVERIFIABLE = "dob_unverifiable".freeze

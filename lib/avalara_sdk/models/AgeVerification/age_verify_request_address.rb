@@ -3,7 +3,7 @@
 
 #API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. 
 
-SDK Version : 2.4.26
+SDK Version : 2.4.29
 
 
 =end
@@ -11,29 +11,19 @@ SDK Version : 2.4.26
 require 'date'
 require 'time'
 
-module AvalaraSdk
-  # Message Details Object
-  class ErrorDetailsErrorDetails
-    # Name of the error or message.
-    attr_accessor :code
+module AvalaraSdk::AgeVerification
+  class AgeVerifyRequestAddress
+    attr_accessor :line1
 
-    # Concise summary of the message, suitable for display in the caption of an alert box.
-    attr_accessor :message
+    attr_accessor :city
 
-    # Unique ID number referring to this error or message.
-    attr_accessor :number
+    # The state code of the address.
+    attr_accessor :region
 
-    # A more detailed description of the problem referenced by this error message, suitable for display in the contents area of an alert box.
-    attr_accessor :description
+    # The country code of the address.
+    attr_accessor :country
 
-    # Indicates the SOAP Fault code, if this was related to an error that corresponded to AvaTax SOAP v1 behavior.
-    attr_accessor :fault_code
-
-    # URL to help for this message
-    attr_accessor :help_link
-
-    # Severity of the message
-    attr_accessor :severity
+    attr_accessor :postal_code
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -60,13 +50,11 @@ module AvalaraSdk
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'code' => :'code',
-        :'message' => :'message',
-        :'number' => :'number',
-        :'description' => :'description',
-        :'fault_code' => :'faultCode',
-        :'help_link' => :'helpLink',
-        :'severity' => :'severity'
+        :'line1' => :'line1',
+        :'city' => :'city',
+        :'region' => :'region',
+        :'country' => :'country',
+        :'postal_code' => :'postalCode'
       }
     end
 
@@ -78,13 +66,11 @@ module AvalaraSdk
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'code' => :'String',
-        :'message' => :'String',
-        :'number' => :'Integer',
-        :'description' => :'String',
-        :'fault_code' => :'String',
-        :'help_link' => :'String',
-        :'severity' => :'String'
+        :'line1' => :'String',
+        :'city' => :'String',
+        :'region' => :'String',
+        :'country' => :'String',
+        :'postal_code' => :'String'
       }
     end
 
@@ -98,43 +84,35 @@ module AvalaraSdk
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `AvalaraSdk::ErrorDetailsErrorDetails` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `AvalaraSdk::AgeVerification::AgeVerifyRequestAddress` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `AvalaraSdk::ErrorDetailsErrorDetails`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `AvalaraSdk::AgeVerification::AgeVerifyRequestAddress`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'code')
-        self.code = attributes[:'code']
+      if attributes.key?(:'line1')
+        self.line1 = attributes[:'line1']
       end
 
-      if attributes.key?(:'message')
-        self.message = attributes[:'message']
+      if attributes.key?(:'city')
+        self.city = attributes[:'city']
       end
 
-      if attributes.key?(:'number')
-        self.number = attributes[:'number']
+      if attributes.key?(:'region')
+        self.region = attributes[:'region']
       end
 
-      if attributes.key?(:'description')
-        self.description = attributes[:'description']
+      if attributes.key?(:'country')
+        self.country = attributes[:'country']
       end
 
-      if attributes.key?(:'fault_code')
-        self.fault_code = attributes[:'fault_code']
-      end
-
-      if attributes.key?(:'help_link')
-        self.help_link = attributes[:'help_link']
-      end
-
-      if attributes.key?(:'severity')
-        self.severity = attributes[:'severity']
+      if attributes.key?(:'postal_code')
+        self.postal_code = attributes[:'postal_code']
       end
     end
 
@@ -148,31 +126,19 @@ module AvalaraSdk
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      code_validator = EnumAttributeValidator.new('String', ["AuthenticationException", "SubscriptionRequired", "UnhandledException", "InvalidAddress", "EntityNotFoundError"])
-      return false unless code_validator.valid?(@code)
-      severity_validator = EnumAttributeValidator.new('String', ["Error"])
-      return false unless severity_validator.valid?(@severity)
+      country_validator = EnumAttributeValidator.new('String', ["US", "USA"])
+      return false unless country_validator.valid?(@country)
       true
     end
 
     # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] code Object to be assigned
-    def code=(code)
-      validator = EnumAttributeValidator.new('String', ["AuthenticationException", "SubscriptionRequired", "UnhandledException", "InvalidAddress", "EntityNotFoundError"])
-      unless validator.valid?(code)
-        fail ArgumentError, "invalid value for \"code\", must be one of #{validator.allowable_values}."
+    # @param [Object] country Object to be assigned
+    def country=(country)
+      validator = EnumAttributeValidator.new('String', ["US", "USA"])
+      unless validator.valid?(country)
+        fail ArgumentError, "invalid value for \"country\", must be one of #{validator.allowable_values}."
       end
-      @code = code
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] severity Object to be assigned
-    def severity=(severity)
-      validator = EnumAttributeValidator.new('String', ["Error"])
-      unless validator.valid?(severity)
-        fail ArgumentError, "invalid value for \"severity\", must be one of #{validator.allowable_values}."
-      end
-      @severity = severity
+      @country = country
     end
 
     # Checks equality by comparing each attribute.
@@ -180,13 +146,11 @@ module AvalaraSdk
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          code == o.code &&
-          message == o.message &&
-          number == o.number &&
-          description == o.description &&
-          fault_code == o.fault_code &&
-          help_link == o.help_link &&
-          severity == o.severity
+          line1 == o.line1 &&
+          city == o.city &&
+          region == o.region &&
+          country == o.country &&
+          postal_code == o.postal_code
     end
 
     # @see the `==` method
@@ -198,7 +162,7 @@ module AvalaraSdk
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [code, message, number, description, fault_code, help_link, severity].hash
+      [line1, city, region, country, postal_code].hash
     end
 
     # Builds the object from hash
@@ -268,7 +232,7 @@ module AvalaraSdk
         end
       else # model
         # models (e.g. Pet) or oneOf
-        klass = AvalaraSdk.const_get(type)
+        klass = AvalaraSdk::AgeVerification.const_get(type)
         klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
       end
     end

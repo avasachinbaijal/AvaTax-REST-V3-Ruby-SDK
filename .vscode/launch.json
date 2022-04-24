@@ -1,0 +1,28 @@
+{
+    "name": "Debug Local File",
+    "type": "Ruby",
+    "request": "launch",
+    "cwd": "${workspaceRoot}",
+    "program": "${file}",
+    "configurations": [
+        {
+            "type": "ruby-debug",
+            "request": "launch",
+            "name": "Launch File",
+            "program": "${workspaceFolder}/${command:AskForProgramName}",
+            "programArgs": [],
+            "useBundler": false
+        },
+
+    {
+        "type": "ruby-debug",
+        "request": "launch",
+        "name": "RSpec",
+        "program": "rspec",
+        "programArgs": [
+            "${workspaceFolder}"
+        ],
+        "useBundler": false
+    }
+    ]
+}

@@ -1,33 +1,26 @@
 =begin
-#Avalara Shipping Verification only
 
-#API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. 
-
-SDK Version : 2.4.26
-
+This is auto-generated class by sdk-generator 
 
 =end
 
-# Common files
-require File.expand_path( '../avalara_sdk/api_client', __FILE__)
-require File.expand_path( '../avalara_sdk/api_error', __FILE__)
-require File.expand_path( '../avalara_sdk/version', __FILE__)
-require File.expand_path( '../avalara_sdk/configuration', __FILE__)
+# All files
+require File.expand_path( '../avalara_sdk/api_client.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/api_error.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/api/AgeVerification/age_verification_api.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/api/shipping/shipping_verification_api.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/configuration.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/models/AgeVerification/age_verify_failure_code.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/models/AgeVerification/age_verify_request_address.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/models/AgeVerification/age_verify_request.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/models/AgeVerification/age_verify_result.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/models/Shipping/error_details_error_details.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/models/Shipping/error_details_error.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/models/Shipping/error_details.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/models/Shipping/shipping_verify_result_lines.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/models/Shipping/shipping_verify_result.rb', __FILE__) 
+require File.expand_path( '../avalara_sdk/version.rb', __FILE__) 
 
-# Models
-require File.expand_path( '../avalara_sdk/models/age_verify_failure_code', __FILE__)
-require File.expand_path( '../avalara_sdk/models/age_verify_request', __FILE__)
-require File.expand_path( '../avalara_sdk/models/age_verify_request_address', __FILE__)
-require File.expand_path( '../avalara_sdk/models/age_verify_result', __FILE__)
-require File.expand_path( '../avalara_sdk/models/error_details', __FILE__)
-require File.expand_path( '../avalara_sdk/models/error_details_error', __FILE__)
-require File.expand_path( '../avalara_sdk/models/error_details_error_details', __FILE__)
-require File.expand_path( '../avalara_sdk/models/shipping_verify_result', __FILE__)
-require File.expand_path( '../avalara_sdk/models/shipping_verify_result_lines', __FILE__)
-
-# APIs
-require File.expand_path( '../avalara_sdk/api/age_verification_api', __FILE__)
-require File.expand_path( '../avalara_sdk/api/shipping_verification_api', __FILE__)
 
 module AvalaraSdk
   class << self

@@ -82,13 +82,7 @@ module AvalaraSdk
                response.status_message
         end
       end
-
-      if opts[:return_type]
-        data = deserialize(response, opts[:return_type])
-      else
-        data = nil
-      end
-      return data, response.code, response.headers
+      return response
     end
 
     # Builds the HTTP request
