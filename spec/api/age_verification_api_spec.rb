@@ -30,7 +30,7 @@ describe 'AgeVerificationApi' do
     config.machine_name="AVL_WIN_007"
     # run before each test
     @api_client = AvalaraSdk::ApiClient.new(config)
-    @api_instance = AvalaraSdk::AgeVerificationApi.new(@api_client)
+    @api_instance = AvalaraSdk::AgeVerification::AgeVerificationApi.new(@api_client)
   end
 
   after do
@@ -39,7 +39,7 @@ describe 'AgeVerificationApi' do
 
   describe 'test an instance of AgeVerificationApi' do
     it 'should create an instance of AgeVerificationApi' do
-      expect(@api_instance).to be_instance_of(AvalaraSdk::AgeVerificationApi)
+      expect(@api_instance).to be_instance_of(AvalaraSdk::AgeVerification::AgeVerificationApi)
     end
   end
 

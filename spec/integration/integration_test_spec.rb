@@ -14,7 +14,7 @@ describe 'ShipmentVerificationApi' do
     config.app_version="2.3.1"
     config.machine_name="AVL_WIN_007"
     @api_client = AvalaraSdk::ApiClient.new config
-    @api_instance = AvalaraSdk::ShippingVerificationApi.new @api_client
+    @api_instance = AvalaraSdk::Shipping::ShippingVerificationApi.new @api_client
   end
 
   describe 'test verifyShipment endpoint' do

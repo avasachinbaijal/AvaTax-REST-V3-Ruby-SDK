@@ -31,7 +31,7 @@ describe 'ShippingVerificationApi' do
     config.machine_name="AVL_WIN_007"
     # run before each test
     @api_client = AvalaraSdk::ApiClient.new(config)
-    @api_instance = AvalaraSdk::ShippingVerificationApi.new(@api_client)
+    @api_instance = AvalaraSdk::Shipping::ShippingVerificationApi.new(@api_client)
   end
 
   after do
@@ -40,7 +40,7 @@ describe 'ShippingVerificationApi' do
 
   describe 'test an instance of ShippingVerificationApi' do
     it 'should create an instance of ShippingVerificationApi' do
-      expect(@api_instance).to be_instance_of(AvalaraSdk::ShippingVerificationApi)
+      expect(@api_instance).to be_instance_of(AvalaraSdk::Shipping::ShippingVerificationApi)
     end
   end
 
