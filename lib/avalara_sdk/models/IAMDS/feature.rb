@@ -1,7 +1,7 @@
 =begin
-#Avalara Shipping Verification for Beverage Alcohol
+#foundation
 
-#API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. 
+#Platform foundation consists of services on top of which the Avalara Compliance Cloud platform is built. These services are foundational and provide functionality such as common organization, tenant and user management for the rest of the compliance platform.
 
 SDK Version : 2.4.34
 
@@ -11,45 +11,42 @@ SDK Version : 2.4.34
 require 'date'
 require 'time'
 
-module AvalaraSdk::Shipping
-  # An object holding details about the error.
-  class ErrorDetailsError
-    # Name of the error or message.
-    attr_accessor :code
+module AvalaraSdk::IAMDS
+  # Representation of a Feature provided by a System within the Avalara Compliance Cloud platform
+  class Feature
+    # Name of the feature, used for display purposes
+    attr_accessor :display_name
 
-    # Concise summary of the message, suitable for display in the caption of an alert box.
-    attr_accessor :message
+    # Additional information about the feature, used for display purposes
+    attr_accessor :description
 
-    attr_accessor :details
+    attr_accessor :system
 
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
+    # List of grants associated with the feature
+    attr_accessor :grants
 
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
+    # Unique identifier for the Object
+    attr_accessor :id
 
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
+    attr_accessor :meta
+
+    # Identifier of the Resource (if any) in other systems
+    attr_accessor :aspects
+
+    # User defined tags in the form of key:value pair
+    attr_accessor :tags
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'code' => :'code',
-        :'message' => :'message',
-        :'details' => :'details'
+        :'display_name' => :'displayName',
+        :'description' => :'description',
+        :'system' => :'system',
+        :'grants' => :'grants',
+        :'id' => :'id',
+        :'meta' => :'meta',
+        :'aspects' => :'aspects',
+        :'tags' => :'tags'
       }
     end
 
@@ -61,9 +58,14 @@ module AvalaraSdk::Shipping
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'code' => :'String',
-        :'message' => :'String',
-        :'details' => :'ErrorDetailsErrorDetails'
+        :'display_name' => :'String',
+        :'description' => :'String',
+        :'system' => :'Reference',
+        :'grants' => :'Array<Reference>',
+        :'id' => :'String',
+        :'meta' => :'InstanceMeta',
+        :'aspects' => :'Array<Aspect>',
+        :'tags' => :'Array<Tag>'
       }
     end
 
@@ -73,31 +75,64 @@ module AvalaraSdk::Shipping
       ])
     end
 
+    # List of class defined in allOf (OpenAPI v3)
+    def self.openapi_all_of
+      [
+      :'Instance'
+      ]
+    end
+
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `AvalaraSdk::Shipping::ErrorDetailsError` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `AvalaraSdk::IAMDS::Feature` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `AvalaraSdk::Shipping::ErrorDetailsError`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `AvalaraSdk::IAMDS::Feature`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'code')
-        self.code = attributes[:'code']
+      if attributes.key?(:'display_name')
+        self.display_name = attributes[:'display_name']
       end
 
-      if attributes.key?(:'message')
-        self.message = attributes[:'message']
+      if attributes.key?(:'description')
+        self.description = attributes[:'description']
       end
 
-      if attributes.key?(:'details')
-        self.details = attributes[:'details']
+      if attributes.key?(:'system')
+        self.system = attributes[:'system']
+      end
+
+      if attributes.key?(:'grants')
+        if (value = attributes[:'grants']).is_a?(Array)
+          self.grants = value
+        end
+      end
+
+      if attributes.key?(:'id')
+        self.id = attributes[:'id']
+      end
+
+      if attributes.key?(:'meta')
+        self.meta = attributes[:'meta']
+      end
+
+      if attributes.key?(:'aspects')
+        if (value = attributes[:'aspects']).is_a?(Array)
+          self.aspects = value
+        end
+      end
+
+      if attributes.key?(:'tags')
+        if (value = attributes[:'tags']).is_a?(Array)
+          self.tags = value
+        end
       end
     end
 
@@ -105,25 +140,28 @@ module AvalaraSdk::Shipping
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if @display_name.nil?
+        invalid_properties.push('invalid value for "display_name", display_name cannot be nil.')
+      end
+
+      if @system.nil?
+        invalid_properties.push('invalid value for "system", system cannot be nil.')
+      end
+
+      if @id.nil?
+        invalid_properties.push('invalid value for "id", id cannot be nil.')
+      end
+
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      code_validator = EnumAttributeValidator.new('String', ["AuthenticationException", "SubscriptionRequired", "ServerConfiguration", "InvalidAddress", "EntityNotFoundError"])
-      return false unless code_validator.valid?(@code)
+      return false if @display_name.nil?
+      return false if @system.nil?
+      return false if @id.nil?
       true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] code Object to be assigned
-    def code=(code)
-      validator = EnumAttributeValidator.new('String', ["AuthenticationException", "SubscriptionRequired", "ServerConfiguration", "InvalidAddress", "EntityNotFoundError"])
-      unless validator.valid?(code)
-        fail ArgumentError, "invalid value for \"code\", must be one of #{validator.allowable_values}."
-      end
-      @code = code
     end
 
     # Checks equality by comparing each attribute.
@@ -131,9 +169,14 @@ module AvalaraSdk::Shipping
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          code == o.code &&
-          message == o.message &&
-          details == o.details
+          display_name == o.display_name &&
+          description == o.description &&
+          system == o.system &&
+          grants == o.grants &&
+          id == o.id &&
+          meta == o.meta &&
+          aspects == o.aspects &&
+          tags == o.tags
     end
 
     # @see the `==` method
@@ -145,7 +188,7 @@ module AvalaraSdk::Shipping
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [code, message, details].hash
+      [display_name, description, system, grants, id, meta, aspects, tags].hash
     end
 
     # Builds the object from hash
@@ -215,7 +258,7 @@ module AvalaraSdk::Shipping
         end
       else # model
         # models (e.g. Pet) or oneOf
-        klass = AvalaraSdk::Shipping.const_get(type)
+        klass = AvalaraSdk::IAMDS.const_get(type)
         klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
       end
     end
