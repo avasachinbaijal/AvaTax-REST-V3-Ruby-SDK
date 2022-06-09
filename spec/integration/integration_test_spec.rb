@@ -20,7 +20,7 @@ describe 'ShipmentVerificationApi' do
   describe 'test verifyShipment endpoint' do
     it 'should be able to call verifyShipment without exception' do
       begin
-        result = @api_instance.verify_shipment("DEFAULT", "063e1af4-11d3-4489-b8ba-ae1149758df4")
+        result = @api_instance.verify_shipment("DEFAULT", "7ded59c0-3ebd-4cc3-80f3-80018bd690b8")
         p result
         puts "Call Completed" 
       rescue AvalaraSdk::ApiError => e
