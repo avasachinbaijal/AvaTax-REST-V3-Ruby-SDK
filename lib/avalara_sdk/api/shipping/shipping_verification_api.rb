@@ -3,7 +3,7 @@
 
 #API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. 
 
-SDK Version : 2.4.29
+SDK Version : 2.4.41
 
 
 =end
@@ -18,7 +18,7 @@ module AvalaraSdk::Shipping
       if (api_client.nil?)
         fail  ArgumentError,'api_client is nil'
       end
-      api_client.set_sdk_version("2.4.29")
+      api_client.set_sdk_version("2.4.41")
       @api_client = api_client
     end
 
