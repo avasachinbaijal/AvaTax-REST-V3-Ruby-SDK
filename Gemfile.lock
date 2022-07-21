@@ -10,9 +10,17 @@ GEM
     ast (2.4.2)
     byebug (11.1.3)
     coderay (1.1.3)
+    debase (0.2.5.beta2)
+      debase-ruby_core_source (>= 0.10.12)
+    debase-ruby_core_source (0.10.16)
     diff-lcs (1.5.0)
+    dotenv (2.7.6)
     ethon (0.15.0)
       ffi (>= 1.15.0)
+    faraday (2.3.0)
+      faraday-net_http (~> 2.0)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (2.0.3)
     ffi (1.15.5-x64-mingw32)
     jaro_winkler (1.5.4)
     method_source (1.0.0)
@@ -50,7 +58,10 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.6)
+    ruby-debug-ide (0.7.3)
+      rake (>= 0.8.1)
     ruby-progressbar (1.11.0)
+    ruby2_keywords (0.0.5)
     stringio (3.0.1)
     typhoeus (1.4.0)
       ethon (>= 0.9.0)
@@ -61,10 +72,14 @@ PLATFORMS
 
 DEPENDENCIES
   avalara_sdk!
+  debase (~> 0.2.5.beta2)
+  dotenv
+  faraday
   pry-byebug
   rake (~> 13.0.1)
   rspec (~> 3.6, >= 3.6.0)
   rubocop (~> 0.66.0)
+  ruby-debug-ide
 
 BUNDLED WITH
    2.3.6

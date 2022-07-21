@@ -12,8 +12,8 @@ module AvalaraSdk
     # Defines environment
     attr_accessor :environment
 
-    # Defines environment
-    attr_accessor :test_url
+    # Defines Test base Path
+    attr_accessor :test_base_path
 
     # Defines url base path
     attr_reader :base_path
@@ -44,8 +44,17 @@ module AvalaraSdk
     # @return [String]
     attr_accessor :password
 
-    # Defines the access token (Bearer) used with OAuth2.
-    attr_accessor :access_token
+    # Defines override token URL for OAuth 2.0 flows when using the test environment.
+    attr_accessor :test_token_url
+
+    # Defines the ClientId used for the OAuth2 Client Credentials flow.
+    attr_accessor :client_id
+
+    # The ClientSecret used for the OAuth2 Client Credentials flow.
+    attr_accessor :client_secret
+
+    # The OAuth2 Avalara Identity Bearer Token that will be used for API access.
+    attr_accessor :bearer_token
 
     # Set this to enable/disable debugging. When enabled (set to true), HTTP request/response
     # details will be logged with `logger.debug` (see the `logger` attribute).
@@ -140,10 +149,16 @@ module AvalaraSdk
     def initialize
       @base_path = ''
       @environment=''
-      @test_url=''
       @app_name=''
       @app_version=''
       @machine_name=''
+      @client_id=''
+      @client_secret=''
+      @bearer_token=''
+      @test_base_path=''
+      @test_token_url=''
+      @username=''
+      @password=''
       @api_key = {}
       @api_key_prefix = {}
       @client_side_validation = true
@@ -176,15 +191,17 @@ module AvalaraSdk
     end
 
     # Returns base URL for specified operation based on server settings
-    def base_url()
-
+    def base_url
       case environment.downcase  
-      when 'sandbox'
+      when 'sandbox', 'qa'
         return 'https://sandbox-rest.avatax.com'
       when 'production'
         return 'https://rest.avatax.com'
       when 'test'
-        return test_url
+        if test_base_path.empty?
+          fail ArgumentError, "Test_Base_Path must be configured to run in test environment mode."
+        end
+        return test_base_path
       else
         fail ArgumentError, "Invalid environment value"
       end

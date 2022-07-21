@@ -3,7 +3,7 @@
 
 #API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. 
 
-SDK Version : 2.4.29
+SDK Version : 2.4.41
 
 
 =end
@@ -18,7 +18,7 @@ module AvalaraSdk::Shipping
       if (api_client.nil?)
         fail  ArgumentError,'api_client is nil'
       end
-      api_client.set_sdk_version("2.4.29")
+      api_client.set_sdk_version("2.4.41")
       @api_client = api_client
     end
 
@@ -235,6 +235,8 @@ module AvalaraSdk::Shipping
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ShippingVerificationApi.deregister_shipment ...'
       end
+      # OAuth2 Scopes
+      required_scopes = ''
       # verify the required parameter 'company_code' is set
       if @api_client.config.client_side_validation && company_code.nil?
         fail ArgumentError, "Missing the required parameter 'company_code' when calling ShippingVerificationApi.deregister_shipment"
@@ -270,6 +272,8 @@ module AvalaraSdk::Shipping
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['BasicAuth', 'Bearer']
+
+      @api_client.apply_auth_to_request!(header_params, auth_names, required_scopes)
 
       new_options = opts.merge(
         :operation => :"ShippingVerificationApi.deregister_shipment",
@@ -314,6 +318,8 @@ module AvalaraSdk::Shipping
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ShippingVerificationApi.register_shipment ...'
       end
+      # OAuth2 Scopes
+      required_scopes = ''
       # verify the required parameter 'company_code' is set
       if @api_client.config.client_side_validation && company_code.nil?
         fail ArgumentError, "Missing the required parameter 'company_code' when calling ShippingVerificationApi.register_shipment"
@@ -349,6 +355,8 @@ module AvalaraSdk::Shipping
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['BasicAuth', 'Bearer']
+
+      @api_client.apply_auth_to_request!(header_params, auth_names, required_scopes)
 
       new_options = opts.merge(
         :operation => :"ShippingVerificationApi.register_shipment",
@@ -393,6 +401,8 @@ module AvalaraSdk::Shipping
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ShippingVerificationApi.register_shipment_if_compliant ...'
       end
+      # OAuth2 Scopes
+      required_scopes = ''
       # verify the required parameter 'company_code' is set
       if @api_client.config.client_side_validation && company_code.nil?
         fail ArgumentError, "Missing the required parameter 'company_code' when calling ShippingVerificationApi.register_shipment_if_compliant"
@@ -428,6 +438,8 @@ module AvalaraSdk::Shipping
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['BasicAuth', 'Bearer']
+
+      @api_client.apply_auth_to_request!(header_params, auth_names, required_scopes)
 
       new_options = opts.merge(
         :operation => :"ShippingVerificationApi.register_shipment_if_compliant",
@@ -474,6 +486,8 @@ module AvalaraSdk::Shipping
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ShippingVerificationApi.verify_shipment ...'
       end
+      # OAuth2 Scopes
+      required_scopes = ''
       # verify the required parameter 'company_code' is set
       if @api_client.config.client_side_validation && company_code.nil?
         fail ArgumentError, "Missing the required parameter 'company_code' when calling ShippingVerificationApi.verify_shipment"
@@ -509,6 +523,8 @@ module AvalaraSdk::Shipping
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['BasicAuth', 'Bearer']
+
+      @api_client.apply_auth_to_request!(header_params, auth_names, required_scopes)
 
       new_options = opts.merge(
         :operation => :"ShippingVerificationApi.verify_shipment",

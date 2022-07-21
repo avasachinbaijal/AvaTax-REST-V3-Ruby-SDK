@@ -16,9 +16,19 @@ require 'logger'
 require 'tempfile'
 require 'time'
 require 'typhoeus'
+require 'base64'
+require 'uri'
+require 'faraday'
+require 'faraday/net_http'
+require 'avalara_sdk/token_metadata'
+Faraday.default_adapter = :net_http
 
 module AvalaraSdk
   class ApiClient
+    PRODUCTION_OPENID_CONFIG_URL = 'https://identity.avalara.com/.well-known/openid-configuration'
+    SANDBOX_OPENID_CONFIG_URL = 'https://ai-sbx.avlr.sh/.well-known/openid-configuration'
+    QA_OPENID_CONFIG_URL = 'https://ai-awsfqa.avlr.sh/.well-known/openid-configuration'
+
     # The Configuration object holding settings to be used in the API client.
     attr_accessor :config
 
@@ -29,6 +39,9 @@ module AvalaraSdk
     #
     # @return [Hash]
     attr_accessor :default_headers
+
+    # The token url that will be used for the OAuth2 flows
+    attr_accessor :token_url
 
     # Initializes the ApiClient
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
@@ -44,18 +57,20 @@ module AvalaraSdk
       @default_headers = {
         'Content-Type' => 'application/json',
         'User-Agent' => @user_agent
-
       }
+      @access_token_map = Hash.new
+      @token_url=""
 
     end
 
     def self.default
-      @@default ||= ApiClient.new
+      @@default ||= ApiClient.new(@config)
     end
 
     def set_sdk_version(sdk_version="")
       @sdk_version=sdk_version
     end
+
     # Call an API with given options.
     #
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
@@ -102,8 +117,6 @@ module AvalaraSdk
       header_params['X-Avalara-Client']="#{@config.app_name};#{@config.app_version};RubySdk;#{@sdk_version};#{@config.machine_name}"
       query_params = opts[:query_params] || {}
       form_params = opts[:form_params] || {}
-
-      update_params_for_auth! header_params, query_params, opts[:auth_names]
 
       # set ssl_verifyhosts option based on @config.verify_ssl_host (true/false)
       _verify_ssl_host = @config.verify_ssl_host ? 2 : 0
@@ -305,29 +318,6 @@ module AvalaraSdk
       @config.base_url() + path      
     end
 
-    # Update header and query params based on authentication settings.
-    #
-    # @param [Hash] header_params Header parameters
-    # @param [Hash] query_params Query parameters
-    # @param [String] auth_names Authentication scheme name
-    def update_params_for_auth!(header_params, query_params, auth_names)
-      Array(auth_names).each do |auth_name|
-        auth_setting = @config.auth_settings[auth_name]
-        next unless auth_setting
-        case auth_setting[:in]
-        when 'header' then 
-          unless auth_setting[:value].nil? 
-            header_params[auth_setting[:key]] = auth_setting[:value]
-          end
-        when 'query'  then 
-          unless auth_setting[:value].nil? 
-            query_params[auth_setting[:key]] = auth_setting[:value]
-          end
-        else fail ArgumentError, 'Authentication token must be in `query` or `header`'
-        end
-      end
-    end
-
     # Sets user agent in HTTP header
     #
     # @param [String] user_agent User agent (e.g. openapi-generator/ruby/1.0.0)
@@ -399,6 +389,160 @@ module AvalaraSdk
         param
       else
         fail "unknown collection format: #{collection_format.inspect}"
+      end
+    end
+
+    def apply_auth_to_request!(header_params, auth_names, required_scopes)
+      if @config.bearer_token.length != 0
+        header_params['Authorization'] = "Bearer #{@config.bearer_token}"
+      elsif auth_names.include?("OAuth") && @config.client_id.length != 0 && @config.client_secret.length != 0
+        scopes = standardize_scopes required_scopes
+        access_token = get_oauth_access_token scopes
+        if access_token.nil?
+          update_oauth_access_token required_scopes, nil
+          access_token = get_oauth_access_token required_scopes
+          header_params['Authorization'] = "Bearer #{access_token}"
+        end
+      elsif @config.username.length != 0  && @config.password.length != 0
+        header_params['Authorization'] = create_basic_auth_header @config.username, @config.password
+      end
+
+    end
+
+    def get_oauth_access_token(required_scopes)
+      token_metadata = @access_token_map[required_scopes]
+      if !token_metadata.nil?
+        expiration_time = Time.now + 300
+        if expiration_time < token_metadata.expiry
+          return token_metadata.access_token
+        end
+      end
+      return nil
+    end
+
+    def update_oauth_access_token(required_scopes, access_token)
+      current_access_token = get_oauth_access_token required_scopes
+      if current_access_token.nil? || current_access_token == access_token
+        begin
+          data = build_oauth_request required_scopes
+          timestamp = Time.now + data['expires_in'].to_i
+          @access_token_map[required_scopes] = AvalaraSdk::TokenMetadata.new(data['access_token'], timestamp)
+        rescue Exception => e
+          puts "OAuth2 Token retrieval failed. Error: #{e.message}"
+          raise "OAuth2 Token retrieval failed. Error: #{e.message}"
+        end
+      end
+    end
+
+    def build_oauth_request(required_scopes)
+      populate_token_url openid_connect_url
+      authorization_value = create_basic_auth_header @config.client_id, @config.client_secret
+      header_params = {
+        "Content-Type" => "application/x-www-form-urlencoded",
+        "Accept" => "application/json",
+        "Authorization" => authorization_value,
+      }
+      # req_opts = {
+      #   # :method => 'post'.to_sym.downcase,
+      #   :headers => header_params,
+      #   :body => { "grant_type"=>"client_credentials", "scope"=>"#{required_scopes}" },
+      #   :ssl_verifypeer => false,
+      #   :ssl_verifyhost => 0,
+      #   :http_version => 'httpv1_1',
+      #   :verbose => true
+      # }
+      # request = Typhoeus::Request.new(@token_url, req_opts)
+      # response = request.run
+      # response = Typhoeus::post(@token_url, req_opts)
+      # unless response.success?
+      #   if response.timed_out?
+      #     fail ApiError.new('Connection timed out')
+      #   elsif response.code == 0
+      #     # Errors from libcurl will be made visible here
+      #     fail ApiError.new(:code => 0,
+      #                       :message => response.return_message)
+      #   else
+      #     fail ApiError.new(:code => response.code,
+      #                       :response_headers => response.headers,
+      #                       :response_body => response.body),
+      #          response.status_message
+      #   end
+      # end
+      # body = response.body
+      # JSON.parse("[#{body}]")[0]
+      data = { "grant_type"=>"client_credentials", "scope"=>"#{required_scopes}" }
+
+      response = Faraday.post(@token_url) do |req|
+        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        req.headers['Authorization'] = authorization_value
+        req.headers['Accept'] = 'application/json'
+        req.body = URI.encode_www_form(data)
+      end
+      JSON.parse(response.body)
+    end
+
+    def create_basic_auth_header(username, password)
+      "Basic #{Base64.encode64("#{username}:#{password}")}"
+    end
+
+    def populate_token_url(openid_connect_url)
+      if @config.environment.downcase == 'test'
+        @token_url = @config.test_token_url
+      elsif @token_url.nil? || @token_url.length == 0
+        begin
+          token_response = get_token_url openid_connect_url
+          @token_url = token_response['token_endpoint']
+        rescue Exception => e
+          puts "Exception when calling OpenIdConnect to fetch the token endpoint. Error: #{e.message}"
+          raise "Exception when calling OpenIdConnect to fetch the token endpoint. Error: #{e.message}"
+        end
+      end
+    end
+
+    def get_token_url(openid_connect_url)
+      req_headers = {
+        "Accept" => "application/json",
+      }
+      req_opts = {
+        :method => 'get'.to_sym.downcase,
+        :headers => req_headers,
+        :ssl_verifypeer => false,
+        :ssl_verifyhost => 0,
+      }
+      request = Typhoeus::Request.new(openid_connect_url, req_opts)
+      response = request.run
+      unless response.success?
+        if response.timed_out?
+          fail ApiError.new('Connection timed out')
+        elsif response.code == 0
+          # Errors from libcurl will be made visible here
+          fail ApiError.new(:code => 0,
+                            :message => response.return_message)
+        else
+          fail ApiError.new(:code => response.code,
+                            :response_headers => response.headers,
+                            :response_body => response.body),
+               response.status_message
+        end
+      end
+      body = response.body
+      JSON.parse("[#{body}]")[0]
+    end
+
+    def standardize_scopes(required_scopes)
+      scopes = required_scopes.split(" ")
+      scopes.sort
+      scopes.join(" ")
+    end
+
+    def openid_connect_url
+      case @config.environment.downcase
+      when 'sandbox'
+        SANDBOX_OPENID_CONFIG_URL
+      when 'production'
+        PRODUCTION_OPENID_CONFIG_URL
+      when 'qa'
+        QA_OPENID_CONFIG_URL
       end
     end
   end

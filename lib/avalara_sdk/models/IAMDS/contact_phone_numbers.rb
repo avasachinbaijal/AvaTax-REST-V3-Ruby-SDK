@@ -1,7 +1,7 @@
 =begin
-#Avalara Shipping Verification for Beverage Alcohol
+#foundation
 
-#API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. 
+#Platform foundation consists of services on top of which the Avalara Compliance Cloud platform is built. These services are foundational and provide functionality such as common organization, tenant and user management for the rest of the compliance platform.
 
 SDK Version : 2.4.41
 
@@ -11,29 +11,16 @@ SDK Version : 2.4.41
 require 'date'
 require 'time'
 
-module AvalaraSdk::Shipping
-  # Message Details Object
-  class ErrorDetailsErrorDetails
-    # Name of the error or message.
-    attr_accessor :code
-
-    # Concise summary of the message, suitable for display in the caption of an alert box.
-    attr_accessor :message
-
-    # Unique ID number referring to this error or message.
+module AvalaraSdk::IAMDS
+  class ContactPhoneNumbers
+    # Phone number of the contact
     attr_accessor :number
 
-    # A more detailed description of the problem referenced by this error message, suitable for display in the contents area of an alert box.
-    attr_accessor :description
+    # Type of phone number
+    attr_accessor :phone_type
 
-    # Indicates the SOAP Fault code, if this was related to an error that corresponded to AvaTax SOAP v1 behavior.
-    attr_accessor :fault_code
-
-    # URL to help for this message
-    attr_accessor :help_link
-
-    # Severity of the message
-    attr_accessor :severity
+    # Is this the primary phone number for the contact
+    attr_accessor :is_primary
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -60,13 +47,9 @@ module AvalaraSdk::Shipping
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'code' => :'code',
-        :'message' => :'message',
         :'number' => :'number',
-        :'description' => :'description',
-        :'fault_code' => :'faultCode',
-        :'help_link' => :'helpLink',
-        :'severity' => :'severity'
+        :'phone_type' => :'phoneType',
+        :'is_primary' => :'isPrimary'
       }
     end
 
@@ -78,13 +61,9 @@ module AvalaraSdk::Shipping
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'code' => :'String',
-        :'message' => :'String',
-        :'number' => :'Integer',
-        :'description' => :'String',
-        :'fault_code' => :'String',
-        :'help_link' => :'String',
-        :'severity' => :'String'
+        :'number' => :'String',
+        :'phone_type' => :'String',
+        :'is_primary' => :'Boolean'
       }
     end
 
@@ -98,43 +77,27 @@ module AvalaraSdk::Shipping
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `AvalaraSdk::Shipping::ErrorDetailsErrorDetails` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `AvalaraSdk::IAMDS::ContactPhoneNumbers` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `AvalaraSdk::Shipping::ErrorDetailsErrorDetails`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `AvalaraSdk::IAMDS::ContactPhoneNumbers`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
-
-      if attributes.key?(:'code')
-        self.code = attributes[:'code']
-      end
-
-      if attributes.key?(:'message')
-        self.message = attributes[:'message']
-      end
 
       if attributes.key?(:'number')
         self.number = attributes[:'number']
       end
 
-      if attributes.key?(:'description')
-        self.description = attributes[:'description']
+      if attributes.key?(:'phone_type')
+        self.phone_type = attributes[:'phone_type']
       end
 
-      if attributes.key?(:'fault_code')
-        self.fault_code = attributes[:'fault_code']
-      end
-
-      if attributes.key?(:'help_link')
-        self.help_link = attributes[:'help_link']
-      end
-
-      if attributes.key?(:'severity')
-        self.severity = attributes[:'severity']
+      if attributes.key?(:'is_primary')
+        self.is_primary = attributes[:'is_primary']
       end
     end
 
@@ -148,31 +111,19 @@ module AvalaraSdk::Shipping
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      code_validator = EnumAttributeValidator.new('String', ["AuthenticationException", "SubscriptionRequired", "UnhandledException", "InvalidAddress", "EntityNotFoundError"])
-      return false unless code_validator.valid?(@code)
-      severity_validator = EnumAttributeValidator.new('String', ["Error"])
-      return false unless severity_validator.valid?(@severity)
+      phone_type_validator = EnumAttributeValidator.new('String', ["work", "home", "mobile", "fax", "other"])
+      return false unless phone_type_validator.valid?(@phone_type)
       true
     end
 
     # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] code Object to be assigned
-    def code=(code)
-      validator = EnumAttributeValidator.new('String', ["AuthenticationException", "SubscriptionRequired", "UnhandledException", "InvalidAddress", "EntityNotFoundError"])
-      unless validator.valid?(code)
-        fail ArgumentError, "invalid value for \"code\", must be one of #{validator.allowable_values}."
+    # @param [Object] phone_type Object to be assigned
+    def phone_type=(phone_type)
+      validator = EnumAttributeValidator.new('String', ["work", "home", "mobile", "fax", "other"])
+      unless validator.valid?(phone_type)
+        fail ArgumentError, "invalid value for \"phone_type\", must be one of #{validator.allowable_values}."
       end
-      @code = code
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] severity Object to be assigned
-    def severity=(severity)
-      validator = EnumAttributeValidator.new('String', ["Error"])
-      unless validator.valid?(severity)
-        fail ArgumentError, "invalid value for \"severity\", must be one of #{validator.allowable_values}."
-      end
-      @severity = severity
+      @phone_type = phone_type
     end
 
     # Checks equality by comparing each attribute.
@@ -180,13 +131,9 @@ module AvalaraSdk::Shipping
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          code == o.code &&
-          message == o.message &&
           number == o.number &&
-          description == o.description &&
-          fault_code == o.fault_code &&
-          help_link == o.help_link &&
-          severity == o.severity
+          phone_type == o.phone_type &&
+          is_primary == o.is_primary
     end
 
     # @see the `==` method
@@ -198,7 +145,7 @@ module AvalaraSdk::Shipping
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [code, message, number, description, fault_code, help_link, severity].hash
+      [number, phone_type, is_primary].hash
     end
 
     # Builds the object from hash
@@ -268,7 +215,7 @@ module AvalaraSdk::Shipping
         end
       else # model
         # models (e.g. Pet) or oneOf
-        klass = AvalaraSdk::Shipping.const_get(type)
+        klass = AvalaraSdk::IAMDS.const_get(type)
         klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
       end
     end

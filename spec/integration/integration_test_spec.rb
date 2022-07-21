@@ -1,13 +1,13 @@
-require 'spec_helper'
 require 'json'
+require 'dotenv/load'
 
 describe 'ShipmentVerificationApi' do
   before do
     config = AvalaraSdk::Configuration.new  
-    config.username = ENV["USERNAME"]
-    config.password = ENV["PASSWORD"]
+    config.username = ENV["AUTH_USERNAME"]
+    config.password = ENV["AUTH_PASSWORD"]
     config.environment='test'
-    config.test_url='https://sandbox-rest.avatax.com'
+    config.test_base_path='https://sandbox-rest.avatax.com'
     config.verify_ssl=false
     config.debugging=true
     config.app_name="testApp"
