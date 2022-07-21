@@ -290,7 +290,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#add_device_to_group\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -378,7 +378,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#add_grant_to_group\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -466,7 +466,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#add_user_to_group\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -549,7 +549,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:POST, local_var_path, new_options)
+      response = @api_client.call_api(:POST, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#create_group\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -634,7 +634,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:DELETE, local_var_path, new_options)
+      response = @api_client.call_api(:DELETE, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#delete_group\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -719,7 +719,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#get_group\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -819,7 +819,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#list_group_devices\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -919,7 +919,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#list_group_grants\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1019,7 +1019,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#list_group_users\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1113,7 +1113,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#list_groups\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1205,7 +1205,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PATCH, local_var_path, new_options)
+      response = @api_client.call_api(:PATCH, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#patch_group\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1293,7 +1293,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:DELETE, local_var_path, new_options)
+      response = @api_client.call_api(:DELETE, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#remove_device_from_group\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1381,7 +1381,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:DELETE, local_var_path, new_options)
+      response = @api_client.call_api(:DELETE, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#remove_grant_from_group\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1469,7 +1469,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:DELETE, local_var_path, new_options)
+      response = @api_client.call_api(:DELETE, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#remove_user_from_group\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1561,7 +1561,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: GroupApi#replace_group\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

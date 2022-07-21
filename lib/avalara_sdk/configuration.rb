@@ -92,33 +92,28 @@ module AvalaraSdk
     # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
     #
     # @return [true, false]
-    attr_accessor :verify_ssl
+    attr_accessor :ssl_verify
 
     ### TLS/SSL setting
-    # Set this to false to skip verifying SSL host name
-    # Default to true.
+    # Any `OpenSSL::SSL::` constant (see https://ruby-doc.org/stdlib-2.5.1/libdoc/openssl/rdoc/OpenSSL/SSL.html)
     #
     # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
     #
-    # @return [true, false]
-    attr_accessor :verify_ssl_host
+    attr_accessor :ssl_verify_mode
 
     ### TLS/SSL setting
     # Set this to customize the certificate file to verify the peer.
     #
     # @return [String] the path to the certificate file
-    #
-    # @see The `cainfo` option of Typhoeus, `--cert` option of libcurl. Related source code:
-    # https://github.com/typhoeus/typhoeus/blob/master/lib/typhoeus/easy_factory.rb#L145
-    attr_accessor :ssl_ca_cert
+    attr_accessor :ssl_ca_file
 
     ### TLS/SSL setting
     # Client certificate file (for client certificate)
-    attr_accessor :cert_file
+    attr_accessor :ssl_client_cert
 
     ### TLS/SSL setting
     # Client private key file (for client certificate)
-    attr_accessor :key_file
+    attr_accessor :ssl_client_key
 
     # Set this to customize parameters encoding of array parameter with multi collectionFormat.
     # Default to nil.
@@ -162,12 +157,15 @@ module AvalaraSdk
       @api_key = {}
       @api_key_prefix = {}
       @client_side_validation = true
-      @verify_ssl = true
-      @verify_ssl_host = true
-      @params_encoding = nil
-      @cert_file = nil
-      @key_file = nil
-      @timeout = 0
+      @ssl_verify = true
+      @ssl_verify_mode = nil
+      @ssl_ca_file = nil
+      @ssl_client_cert = nil
+      @ssl_client_key = nil
+      @middlewares = []
+      @request_middlewares = []
+      @response_middlewares = []
+      @timeout = 60
       @debugging = false
       @inject_format = false
       @force_ending_format = false
@@ -244,5 +242,34 @@ module AvalaraSdk
       }
     end
    
+    # Adds middleware to the stack
+    def use(*middleware)
+      @middlewares << middleware
+    end
+
+    # Adds request middleware to the stack
+    def request(*middleware)
+      @request_middlewares << middleware
+    end
+
+    # Adds response middleware to the stack
+    def response(*middleware)
+      @response_middlewares << middleware
+    end
+
+    # Set up middleware on the connection
+    def configure_middleware(connection)
+      @middlewares.each do |middleware|
+        connection.use(*middleware)
+      end
+
+      @request_middlewares.each do |middleware|
+        connection.request(*middleware)
+      end
+
+      @response_middlewares.each do |middleware|
+        connection.response(*middleware)
+      end
+    end
   end
 end

@@ -285,7 +285,7 @@ module AvalaraSdk::Shipping
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:DELETE, local_var_path, new_options)
+      response = @api_client.call_api(:DELETE, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ShippingVerificationApi#deregister_shipment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -368,7 +368,7 @@ module AvalaraSdk::Shipping
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ShippingVerificationApi#register_shipment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -451,7 +451,7 @@ module AvalaraSdk::Shipping
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ShippingVerificationApi#register_shipment_if_compliant\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -536,7 +536,7 @@ module AvalaraSdk::Shipping
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ShippingVerificationApi#verify_shipment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

@@ -8,8 +8,6 @@ describe 'ShipmentVerificationApi' do
     config.password = ENV["AUTH_PASSWORD"]
     config.environment='test'
     config.test_base_path='https://sandbox-rest.avatax.com'
-    config.verify_ssl=false
-    config.debugging=true
     config.app_name="testApp"
     config.app_version="2.3.1"
     config.machine_name="AVL_WIN_007"

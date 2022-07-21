@@ -290,7 +290,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AppApi#add_grant_to_app\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -373,7 +373,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:POST, local_var_path, new_options)
+      response = @api_client.call_api(:POST, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AppApi#create_app\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -455,7 +455,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:POST, local_var_path, new_options)
+      response = @api_client.call_api(:POST, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AppApi#create_app_secret\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -540,7 +540,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:DELETE, local_var_path, new_options)
+      response = @api_client.call_api(:DELETE, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AppApi#delete_app\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -625,7 +625,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AppApi#get_app\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -725,7 +725,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AppApi#list_app_grants\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -819,7 +819,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AppApi#list_apps\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -911,7 +911,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PATCH, local_var_path, new_options)
+      response = @api_client.call_api(:PATCH, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AppApi#patch_app\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -999,7 +999,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:DELETE, local_var_path, new_options)
+      response = @api_client.call_api(:DELETE, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AppApi#remove_grant_from_app\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1091,7 +1091,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AppApi#replace_app\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

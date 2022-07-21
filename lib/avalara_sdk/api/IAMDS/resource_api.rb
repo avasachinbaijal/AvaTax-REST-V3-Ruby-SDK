@@ -285,7 +285,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:POST, local_var_path, new_options)
+      response = @api_client.call_api(:POST, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ResourceApi#create_resource\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -367,7 +367,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:DELETE, local_var_path, new_options)
+      response = @api_client.call_api(:DELETE, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ResourceApi#delete_resource\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -455,7 +455,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ResourceApi#get_resource\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -555,7 +555,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ResourceApi#list_resource_permissions\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -649,7 +649,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ResourceApi#list_resources\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -741,7 +741,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PATCH, local_var_path, new_options)
+      response = @api_client.call_api(:PATCH, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ResourceApi#patch_resource\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -833,7 +833,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ResourceApi#replace_resource\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

@@ -290,7 +290,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#add_device_to_tenant\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -384,7 +384,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#add_grant_to_tenant_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -472,7 +472,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#add_user_to_tenant\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -555,7 +555,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:POST, local_var_path, new_options)
+      response = @api_client.call_api(:POST, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#create_tenant\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -640,7 +640,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:DELETE, local_var_path, new_options)
+      response = @api_client.call_api(:DELETE, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#delete_tenant\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -725,7 +725,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#get_tenant\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -825,7 +825,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#list_tenant_devices\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -925,7 +925,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#list_tenant_entitlements\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1025,7 +1025,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#list_tenant_groups\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1131,7 +1131,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#list_tenant_user_grants\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1237,7 +1237,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#list_tenant_user_groups\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1337,7 +1337,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#list_tenant_users\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1431,7 +1431,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:GET, local_var_path, new_options)
+      response = @api_client.call_api(:GET, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#list_tenants\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1523,7 +1523,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PATCH, local_var_path, new_options)
+      response = @api_client.call_api(:PATCH, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#patch_tenant\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1611,7 +1611,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:DELETE, local_var_path, new_options)
+      response = @api_client.call_api(:DELETE, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#remove_device_from_tenant\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1705,7 +1705,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:DELETE, local_var_path, new_options)
+      response = @api_client.call_api(:DELETE, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#remove_grant_from_tenant_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1793,7 +1793,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:DELETE, local_var_path, new_options)
+      response = @api_client.call_api(:DELETE, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#remove_user_from_tenant\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1885,7 +1885,7 @@ module AvalaraSdk::IAMDS
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:PUT, local_var_path, new_options)
+      response = @api_client.call_api(:PUT, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: TenantApi#replace_tenant\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

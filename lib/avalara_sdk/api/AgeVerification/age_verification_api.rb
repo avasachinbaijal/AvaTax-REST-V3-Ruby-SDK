@@ -282,7 +282,7 @@ module AvalaraSdk::AgeVerification
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:POST, local_var_path, new_options)
+      response = @api_client.call_api(:POST, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AgeVerificationApi#verify_age\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
