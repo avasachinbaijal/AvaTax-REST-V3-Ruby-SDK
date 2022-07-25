@@ -21,9 +21,7 @@ describe 'AgeVerificationApi' do
     config = AvalaraSdk::Configuration.new  
     config.username = ''
     config.password = ''
-    config.environment='test'
-    config.test_url='https://sandbox-rest.avatax.com'
-    config.verify_ssl=false
+    config.environment='sandbox'
     config.debugging=true
     config.app_name="testApp"
     config.app_version="2.3.1"
