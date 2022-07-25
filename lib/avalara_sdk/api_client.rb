@@ -104,7 +104,7 @@ module AvalaraSdk
         end
 
         unless response.success?
-          if (response.status == 401 || response.status == 403) && !is_retry && @config.client_id.length != 0 && @config.client_secret.length != 0
+          if (response.status == 401 || response.status == 403) && !is_retry && !@config.client_id.nil? && !@config.client_secret.nil? && @config.client_id.length != 0 && @config.client_secret.length != 0
             authorization_header = opts[:header_params]["Authorization"]
             values = authorization_header.split(" ")
             if !values.nil? && values.length == 2
