@@ -312,9 +312,9 @@ module AvalaraSdk
     end
 
     def apply_auth_to_request!(header_params, auth_names, required_scopes)
-      if @config.bearer_token.length != 0
+      if !@config.bearer_token.nil? && @config.bearer_token.length != 0
         header_params['Authorization'] = "Bearer #{@config.bearer_token}"
-      elsif auth_names.include?("OAuth") && @config.client_id.length != 0 && @config.client_secret.length != 0
+      elsif auth_names.include?("OAuth") && !@config.client_id.nil? && !@config.client_secret.nil? && @config.client_id.length != 0 && @config.client_secret.length != 0
         scopes = standardize_scopes required_scopes
         access_token = get_oauth_access_token scopes
         if access_token.nil?
@@ -322,7 +322,7 @@ module AvalaraSdk
           access_token = get_oauth_access_token required_scopes
         end
         header_params['Authorization'] = "Bearer #{access_token}"
-      elsif @config.username.length != 0  && @config.password.length != 0
+      elsif !@config.username.nil? && !@config.password.nil? && @config.username.length != 0  && @config.password.length != 0
         header_params['Authorization'] = create_basic_auth_header @config.username, @config.password
       end
 
