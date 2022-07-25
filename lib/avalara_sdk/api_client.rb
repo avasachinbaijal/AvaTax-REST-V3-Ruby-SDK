@@ -41,6 +41,9 @@ module AvalaraSdk
     # The token url that will be used for the OAuth2 flows
     attr_accessor :token_url
 
+    # The in-memory cache for access tokens
+    attr_accessor :access_token_map
+
     # Initializes the ApiClient
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
     def initialize(config)
