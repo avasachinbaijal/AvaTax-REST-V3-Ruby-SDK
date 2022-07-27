@@ -4,8 +4,8 @@ require 'json'
 describe 'ShipmentVerificationApi' do
   before do
     config = AvalaraSdk::Configuration.new  
-    config.username = ENV["USERNAME"]
-    config.password = ENV["PASSWORD"]
+    config.username = ENV["API_USERNAME"]
+    config.password = ENV["API_PASSWORD"]
     config.environment='test'
     config.test_url='https://sandbox-rest.avatax.com'
     config.verify_ssl=false
