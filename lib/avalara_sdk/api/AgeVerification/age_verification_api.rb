@@ -3,7 +3,7 @@
 
 #API for evaluating transactions against direct-to-consumer Beverage Alcohol shipping regulations.  This API is currently in beta. 
 
-SDK Version : 2.4.29
+SDK Version : 2.4.41
 
 
 =end
@@ -18,7 +18,7 @@ module AvalaraSdk::AgeVerification
       if (api_client.nil?)
         fail  ArgumentError,'api_client is nil'
       end
-      api_client.set_sdk_version("2.4.29")
+      api_client.set_sdk_version("2.4.41")
       @api_client = api_client
     end
 
@@ -235,6 +235,8 @@ module AvalaraSdk::AgeVerification
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AgeVerificationApi.verify_age ...'
       end
+      # OAuth2 Scopes
+      required_scopes = ''
       # verify the required parameter 'age_verify_request' is set
       if @api_client.config.client_side_validation && age_verify_request.nil?
         fail ArgumentError, "Missing the required parameter 'age_verify_request' when calling AgeVerificationApi.verify_age"
@@ -268,6 +270,8 @@ module AvalaraSdk::AgeVerification
       # auth_names
       auth_names = opts[:debug_auth_names] || ['BasicAuth', 'Bearer']
 
+      @api_client.apply_auth_to_request!(header_params, auth_names, required_scopes)
+
       new_options = opts.merge(
         :operation => :"AgeVerificationApi.verify_age",
         :header_params => header_params,
@@ -278,7 +282,7 @@ module AvalaraSdk::AgeVerification
         :return_type => return_type
       )
 
-      response = @api_client.call_api(:POST, local_var_path, new_options)
+      response = @api_client.call_api(:POST, local_var_path, new_options, required_scopes)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: AgeVerificationApi#verify_age\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

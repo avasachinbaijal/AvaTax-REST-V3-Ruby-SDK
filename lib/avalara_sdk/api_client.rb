@@ -15,10 +15,18 @@ require 'json'
 require 'logger'
 require 'tempfile'
 require 'time'
-require 'typhoeus'
+require 'base64'
+require 'uri'
+require 'faraday'
+require 'avalara_sdk/token_metadata'
+require 'avalara_sdk/response_hash'
 
 module AvalaraSdk
   class ApiClient
+    PRODUCTION_OPENID_CONFIG_URL = 'https://identity.avalara.com/.well-known/openid-configuration'
+    SANDBOX_OPENID_CONFIG_URL = 'https://ai-sbx.avlr.sh/.well-known/openid-configuration'
+    QA_OPENID_CONFIG_URL = 'https://ai-awsfqa.avlr.sh/.well-known/openid-configuration'
+
     # The Configuration object holding settings to be used in the API client.
     attr_accessor :config
 
@@ -29,6 +37,12 @@ module AvalaraSdk
     #
     # @return [Hash]
     attr_accessor :default_headers
+
+    # The token url that will be used for the OAuth2 flows
+    attr_accessor :token_url
+
+    # The in-memory cache for access tokens
+    attr_accessor :access_token_map
 
     # Initializes the ApiClient
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
@@ -44,45 +58,76 @@ module AvalaraSdk
       @default_headers = {
         'Content-Type' => 'application/json',
         'User-Agent' => @user_agent
-
       }
+      @access_token_map = Hash.new
+      @token_url=""
 
     end
 
     def self.default
-      @@default ||= ApiClient.new
+      @@default ||= ApiClient.new(@config)
     end
 
     def set_sdk_version(sdk_version="")
       @sdk_version=sdk_version
     end
+
     # Call an API with given options.
     #
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
-    #   the data deserialized from response body (could be nil), response status code and response headers.
-    def call_api(http_method, path, opts = {})
-      request = build_request(http_method, path, opts)
-      response = request.run
+    #   the data from response body (could be nil), response status code and response headers.
+    def call_api(http_method, path, opts = {}, required_scopes = "", is_retry = false)
+      ssl_options = {
+        :ca_file => @config.ssl_ca_file,
+        :verify => @config.ssl_verify,
+        :verify_mode => @config.ssl_verify_mode,
+        :client_cert => @config.ssl_client_cert,
+        :client_key => @config.ssl_client_key
+      }
 
-      if @config.debugging
-        @config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
-      end
-
-      unless response.success?
-        if response.timed_out?
-          fail ApiError.new('Connection timed out')
-        elsif response.code == 0
-          # Errors from libcurl will be made visible here
-          fail ApiError.new(:code => 0,
-                            :message => response.return_message)
-        else
-          fail ApiError.new(:code => response.code,
-                            :response_headers => response.headers,
-                            :response_body => response.body),
-               response.status_message
+      connection = Faraday.new(:url => config.base_url, :ssl => ssl_options) do |conn|
+        @config.configure_middleware(conn)
+        if opts[:header_params]["Content-Type"] == "multipart/form-data"
+          conn.request :multipart
+          conn.request :url_encoded
         end
+        conn.adapter(Faraday.default_adapter)
       end
-      return response
+
+      begin
+        response = connection.public_send(http_method.to_sym.downcase) do |req|
+          build_request(http_method, path, req, opts)
+        end
+
+        if @config.debugging
+          @config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
+        end
+
+        unless response.success?
+          if (response.status == 401 || response.status == 403) && !is_retry && !@config.client_id.nil? && !@config.client_secret.nil? && @config.client_id.length != 0 && @config.client_secret.length != 0
+            authorization_header = opts[:header_params]["Authorization"]
+            values = authorization_header.split(" ")
+            if !values.nil? && values.length == 2
+              update_oauth_access_token(required_scopes, values[1])
+              call_api(http_method, path, opts, required_scopes, true)
+            end
+
+          elsif response.status == 0
+            # Errors from libcurl will be made visible here
+            fail ApiError.new(:code => 0,
+                              :message => response.return_message)
+          else
+            fail ApiError.new(:code => response.status,
+                              :response_headers => response.headers,
+                              :response_body => response.body),
+                 response.reason_phrase
+          end
+        end
+      rescue Faraday::TimeoutError
+        fail ApiError.new('Connection timed out')
+      end
+
+      return AvalaraSdk::ResponseHash.new(response.body, response.headers, response.status)
     end
 
     # Builds the HTTP request
@@ -93,8 +138,8 @@ module AvalaraSdk
     # @option opts [Hash] :query_params Query parameters
     # @option opts [Hash] :form_params Query parameters
     # @option opts [Object] :body HTTP body (JSON/XML)
-    # @return [Typhoeus::Request] A Typhoeus Request
-    def build_request(http_method, path, opts = {})
+    # @return [Faraday::Request] A Faraday Request
+    def build_request(http_method, path, request, opts = {})
       url = build_request_url(path, opts)
       http_method = http_method.to_sym.downcase
 
@@ -103,36 +148,23 @@ module AvalaraSdk
       query_params = opts[:query_params] || {}
       form_params = opts[:form_params] || {}
 
-      update_params_for_auth! header_params, query_params, opts[:auth_names]
-
-      # set ssl_verifyhosts option based on @config.verify_ssl_host (true/false)
-      _verify_ssl_host = @config.verify_ssl_host ? 2 : 0
-
       req_opts = {
-        :method => http_method,
-        :headers => header_params,
-        :params => query_params,
         :params_encoding => @config.params_encoding,
         :timeout => @config.timeout,
-        :ssl_verifypeer => @config.verify_ssl,
-        :ssl_verifyhost => _verify_ssl_host,
-        :sslcert => @config.cert_file,
-        :sslkey => @config.key_file,
         :verbose => @config.debugging
       }
 
-      # set custom cert, if provided
-      req_opts[:cainfo] = @config.ssl_ca_cert if @config.ssl_ca_cert
-
       if [:post, :patch, :put, :delete].include?(http_method)
         req_body = build_request_body(header_params, form_params, opts[:body])
-        req_opts.update :body => req_body
         if @config.debugging
           @config.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
         end
       end
-
-      request = Typhoeus::Request.new(url, req_opts)
+      request.headers = header_params
+      request.body = req_body
+      request.options = OpenStruct.new(req_opts)
+      request.url url
+      request.params = query_params
       download_file(request) if opts[:return_type] == 'File'
       request
     end
@@ -145,13 +177,17 @@ module AvalaraSdk
     # @return [String] HTTP body data in the form of string
     def build_request_body(header_params, form_params, body)
       # http form
-      if header_params['Content-Type'] == 'application/x-www-form-urlencoded' ||
-          header_params['Content-Type'] == 'multipart/form-data'
+      if header_params['Content-Type'] == 'application/x-www-form-urlencoded'
+        data = URI.encode_www_form(form_params)
+      elsif header_params['Content-Type'] == 'multipart/form-data'
         data = {}
         form_params.each do |key, value|
           case value
-          when ::File, ::Array, nil
-            # let typhoeus handle File, Array and nil parameters
+          when ::File, ::Tempfile
+            # TODO hardcode to application/octet-stream, need better way to detect content type
+            data[key] = Faraday::UploadIO.new(value.path, 'application/octet-stream', value.path)
+          when ::Array, nil
+            # let Faraday handle Array and nil parameters
             data[key] = value
           else
             data[key] = value.to_s
@@ -165,41 +201,12 @@ module AvalaraSdk
       data
     end
 
-    # Save response body into a file in (the defined) temporary folder, using the filename
-    # from the "Content-Disposition" header if provided, otherwise a random filename.
-    # The response body is written to the file in chunks in order to handle files which
-    # size is larger than maximum Ruby String or even larger than the maximum memory a Ruby
-    # process can use.
-    #
-    # @see Configuration#temp_folder_path
     def download_file(request)
-      tempfile = nil
-      encoding = nil
-      request.on_headers do |response|
-        content_disposition = response.headers['Content-Disposition']
-        if content_disposition && content_disposition =~ /filename=/i
-          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
-          prefix = sanitize_filename(filename)
-        else
-          prefix = 'download-'
-        end
-        prefix = prefix + '-' unless prefix.end_with?('-')
-        encoding = response.body.encoding
-        tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        @tempfile = tempfile
-      end
-      request.on_body do |chunk|
-        chunk.force_encoding(encoding)
-        tempfile.write(chunk)
-      end
-      request.on_complete do |response|
-        if tempfile
-          tempfile.close
-          @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
-                              "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-                              "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                              "explicitly with `tempfile.delete`"
-        end
+      @stream = []
+
+      # handle streaming Responses
+      request.options.on_data = Proc.new do |chunk, overall_received_bytes|
+        @stream << chunk
       end
     end
 
@@ -215,81 +222,6 @@ module AvalaraSdk
       (mime == '*/*') || !(mime =~ /Application\/.*json(?!p)(;.*)?/i).nil?
     end
 
-    # Deserialize the response to the given return type.
-    #
-    # @param [Response] response HTTP response
-    # @param [String] return_type some examples: "User", "Array<User>", "Hash<String, Integer>"
-    def deserialize(response, return_type)
-      body = response.body
-
-      # handle file downloading - return the File instance processed in request callbacks
-      # note that response body is empty when the file is written in chunks in request on_body callback
-      return @tempfile if return_type == 'File'
-
-      return nil if body.nil? || body.empty?
-
-      # return response body directly for String return type
-      return body if return_type == 'String'
-
-      # ensuring a default content type
-      content_type = response.headers['Content-Type'] || 'application/json'
-
-      fail "Content-Type is not supported: #{content_type}" unless json_mime?(content_type)
-
-      begin
-        data = JSON.parse("[#{body}]", :symbolize_names => true)[0]
-      rescue JSON::ParserError => e
-        if %w(String Date Time).include?(return_type)
-          data = body
-        else
-          raise e
-        end
-      end
-
-      convert_to_type data, return_type
-    end
-
-    # Convert data to the given return type.
-    # @param [Object] data Data to be converted
-    # @param [String] return_type Return type
-    # @return [Mixed] Data in a particular type
-    def convert_to_type(data, return_type)
-      return nil if data.nil?
-      case return_type
-      when 'String'
-        data.to_s
-      when 'Integer'
-        data.to_i
-      when 'Float'
-        data.to_f
-      when 'Boolean'
-        data == true
-      when 'Time'
-        # parse date time (expecting ISO 8601 format)
-        Time.parse data
-      when 'Date'
-        # parse date time (expecting ISO 8601 format)
-        Date.parse data
-      when 'Object'
-        # generic object (usually a Hash), return directly
-        data
-      when /\AArray<(.+)>\z/
-        # e.g. Array<Pet>
-        sub_type = $1
-        data.map { |item| convert_to_type(item, sub_type) }
-      when /\AHash\<String, (.+)\>\z/
-        # e.g. Hash<String, Integer>
-        sub_type = $1
-        {}.tap do |hash|
-          data.each { |k, v| hash[k] = convert_to_type(v, sub_type) }
-        end
-      else
-        # models (e.g. Pet) or oneOf
-        klass = AvalaraSdk.const_get(return_type)
-        klass.respond_to?(:openapi_one_of) ? klass.build(data) : klass.build_from_hash(data)
-      end
-    end
-
     # Sanitize filename by removing path.
     # e.g. ../../sun.gif becomes sun.gif
     #
@@ -303,29 +235,6 @@ module AvalaraSdk
       # Add leading and trailing slashes to path
       path = "/#{path}".gsub(/\/+/, '/')
       @config.base_url() + path      
-    end
-
-    # Update header and query params based on authentication settings.
-    #
-    # @param [Hash] header_params Header parameters
-    # @param [Hash] query_params Query parameters
-    # @param [String] auth_names Authentication scheme name
-    def update_params_for_auth!(header_params, query_params, auth_names)
-      Array(auth_names).each do |auth_name|
-        auth_setting = @config.auth_settings[auth_name]
-        next unless auth_setting
-        case auth_setting[:in]
-        when 'header' then 
-          unless auth_setting[:value].nil? 
-            header_params[auth_setting[:key]] = auth_setting[:value]
-          end
-        when 'query'  then 
-          unless auth_setting[:value].nil? 
-            query_params[auth_setting[:key]] = auth_setting[:value]
-          end
-        else fail ArgumentError, 'Authentication token must be in `query` or `header`'
-        end
-      end
     end
 
     # Sets user agent in HTTP header
@@ -399,6 +308,104 @@ module AvalaraSdk
         param
       else
         fail "unknown collection format: #{collection_format.inspect}"
+      end
+    end
+
+    def apply_auth_to_request!(header_params, auth_names, required_scopes)
+      if !@config.bearer_token.nil? && @config.bearer_token.length != 0
+        header_params['Authorization'] = "Bearer #{@config.bearer_token}"
+      elsif auth_names.include?("OAuth") && !@config.client_id.nil? && !@config.client_secret.nil? && @config.client_id.length != 0 && @config.client_secret.length != 0
+        scopes = standardize_scopes required_scopes
+        access_token = get_oauth_access_token scopes
+        if access_token.nil?
+          update_oauth_access_token required_scopes, nil
+          access_token = get_oauth_access_token required_scopes
+        end
+        header_params['Authorization'] = "Bearer #{access_token}"
+      elsif !@config.username.nil? && !@config.password.nil? && @config.username.length != 0  && @config.password.length != 0
+        header_params['Authorization'] = create_basic_auth_header @config.username, @config.password
+      end
+
+    end
+
+    def get_oauth_access_token(required_scopes)
+      token_metadata = @access_token_map[required_scopes]
+      if !token_metadata.nil?
+        expiration_time = Time.now + 300
+        if expiration_time < token_metadata.expiry
+          return token_metadata.access_token
+        end
+      end
+      return nil
+    end
+
+    def update_oauth_access_token(required_scopes, access_token)
+      current_access_token = get_oauth_access_token required_scopes
+      if current_access_token.nil? || current_access_token == access_token
+        begin
+          data = build_oauth_request required_scopes
+          timestamp = Time.now + data['expires_in'].to_i
+          @access_token_map[required_scopes] = AvalaraSdk::TokenMetadata.new(data['access_token'], timestamp)
+        rescue Exception => e
+          puts "OAuth2 Token retrieval failed. Error: #{e.message}"
+          raise "OAuth2 Token retrieval failed. Error: #{e.message}"
+        end
+      end
+    end
+
+    def build_oauth_request(required_scopes)
+      populate_token_url openid_connect_url
+      authorization_value = create_basic_auth_header @config.client_id, @config.client_secret
+      data = { "grant_type"=>"client_credentials", "scope"=>"#{required_scopes}" }
+
+      response = Faraday.post(@token_url) do |req|
+        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        req.headers['Authorization'] = authorization_value
+        req.headers['Accept'] = 'application/json'
+        req.body = URI.encode_www_form(data)
+      end
+      JSON.parse(response.body)
+    end
+
+    def create_basic_auth_header(username, password)
+      "Basic #{Base64.encode64("#{username}:#{password}")}"
+    end
+
+    def populate_token_url(openid_connect_url)
+      if @config.environment.downcase == 'test'
+        @token_url = @config.test_token_url
+      elsif @token_url.nil? || @token_url.length == 0
+        begin
+          token_response = get_token_url openid_connect_url
+          @token_url = token_response['token_endpoint']
+        rescue Exception => e
+          puts "Exception when calling OpenIdConnect to fetch the token endpoint. Error: #{e.message}"
+          raise "Exception when calling OpenIdConnect to fetch the token endpoint. Error: #{e.message}"
+        end
+      end
+    end
+
+    def get_token_url(openid_connect_url)
+      response = Faraday.get(openid_connect_url) do |req|
+        req.headers['Accept'] = 'application/json'
+      end
+      JSON.parse(response.body)
+    end
+
+    def standardize_scopes(required_scopes)
+      scopes = required_scopes.split(" ")
+      scopes.sort
+      scopes.join(" ")
+    end
+
+    def openid_connect_url
+      case @config.environment.downcase
+      when 'sandbox'
+        SANDBOX_OPENID_CONFIG_URL
+      when 'production'
+        PRODUCTION_OPENID_CONFIG_URL
+      when 'qa'
+        QA_OPENID_CONFIG_URL
       end
     end
   end
